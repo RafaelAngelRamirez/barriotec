@@ -84,7 +84,7 @@ odoo.define("website.user_custom_code", function (require) {
       const model = "product.template"
       const method = "search_read"
       // Use an empty array to search for all the records
-      const domain = []
+      const domain = [["is_booking_type", "=", true]]
       // Use an empty array to read all the fields of the records
       const fields = encabezados.map(x => x[1])
       const options = {
