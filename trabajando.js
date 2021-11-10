@@ -80,38 +80,39 @@ odoo.define("website.user_custom_code", function (require) {
     generarEncabezado(encabezados.map(x => x[0]))
 
     function getProductBySKU() {
-      var model = "product.template"
+      const model = "product.template"
+      const method = "search_read"
       // Use an empty array to search for all the records
-      var domain = []
+      const domain = []
       // Use an empty array to read all the fields of the records
-      var fields = encabezados.map(x => x[1])
-      var rpc = require("web.rpc")
-      rpc
-        .query({
-          model,
-          method: "search_read",
-          args: [domain, []],
-        })
-        .then(products => {
-          // alert(products)
-          console.log({ products })
-          // let campos = encabezados.map(x=>x[1])
-          // let datos = products.map(product=>{
+      //   const fields = encabezados.map(x => x[1])
+      const fields = []
+      const rpc = require("web.rpc")
+      const options = {
+        model,
+        method,
+        args: [domain, fields],
+      }
+      rpc.query(options).then(products => {
+        // alert(products)
+        console.log({ products })
+        // let campos = encabezados.map(x=>x[1])
+        // let datos = products.map(product=>{
 
-          //     let r = []
-          //     campos.forEach(campo=>{
+        //     let r = []
+        //     campos.forEach(campo=>{
 
-          //         if(product.hasOwnProperty(campo))
-          //             r.push(product[campo])
-          //         else r.push('')
+        //         if(product.hasOwnProperty(campo))
+        //             r.push(product[campo])
+        //         else r.push('')
 
-          //     })
+        //     })
 
-          //     return r
-          // })
+        //     return r
+        // })
 
-          // generarDatos(datos)
-        })
+        // generarDatos(datos)
+      })
     }
 
     getProductBySKU()
