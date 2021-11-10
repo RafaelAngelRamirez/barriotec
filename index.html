@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      body {
+        background-image: url("https://images.unsplash.com/photo-1490730141103-6cac27aaab94?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGlkZWF8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80");
+
+        color: white;
+      }
+
+      tr,
+      td,
+      th {
+        color: white;
+      }
+
+      .table-hover tbody tr:hover td,
+      .table-hover tbody tr:hover th {
+        background-color: rgb(109, 109, 255);
+      }
+
+      .tabla_depa_disponibilidad > tbody > tr > td,
+      .tabla_depa_disponibilidad > tbody > tr > th,
+      .tabla_depa_disponibilidad > tfoot > tr > td,
+      .tabla_depa_disponibilidad > tfoot > tr > th,
+      .tabla_depa_disponibilidad > thead > tr > td,
+      .tabla_depa_disponibilidad > thead > tr > th {
+        padding: 2px;
+      }
+      .tabla_depa_disponibilidad > tbody > tr.espacio > td {
+        padding: 5px;
+      }
+
+      #depa_disponibilidad {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-right: 50px;
+        padding-left: 50px;
+        background-color: rgba(0, 0, 255, 0.5);
+      }
+
+      .table-hover tbody tr.espacio:hover td,
+      .table-hover tbody tr.espacio:hover th {
+        background-color: unset;
+      }
+    </style>
+
+    <script type="text/javascript" src="https://livejs.com/live.js"></script>
+
+    <script>
+      function docReady(fn) {
+        // see if DOM is already available
+        if (
+          document.readyState === "complete" ||
+          document.readyState === "interactive"
+        ) {
+          // call on next available tick
+          setTimeout(fn, 1)
+        } else {
+          document.addEventListener("DOMContentLoaded", fn)
+        }
+      }
+
+      function generarEncabezado(encabezados) {
+        let headerTemplate = document.getElementById(
+          "depa_disponibilidad_template_head"
+        )
+
+        //Agregamos uno al principio y al final
+        // para estilizar
+
+        let trHead = headerTemplate.parentElement
+
+        encabezados.forEach(x => {
+          let header = headerTemplate.cloneNode()
+          header.innerHTML = x
+          header.id = x
+          trHead.appendChild(header)
+        })
+
+        headerTemplate.remove()
+      }
+
+      function generarDatos(datos) {
+        let trTemplate = document.getElementById(
+          "depa_disponibilidad_template_tr"
+        )
+        let trEspacioTemplate = document.getElementById(
+          "depa_disponibilidad_template_tr_espacio"
+        )
+
+        let tbody = trTemplate.parentElement
+
+        datos.forEach(conjuntoDeDatos => {
+          let tr = trTemplate.cloneNode()
+          let trEspacio = trEspacioTemplate.cloneNode()
+
+          conjuntoDeDatos.forEach(x => {
+            let td = document.createElement("td")
+            let tdEspacio = document.createElement("td")
+            td.innerText = x
+            tr.appendChild(td)
+            trEspacio.appendChild(tdEspacio)
+          })
+          tbody.appendChild(tr)
+          tbody.appendChild(trEspacio)
+        })
+      }
+
+      function cargarDatos() {
+        let encabezados = [
+          "Nombre",
+          "Categoría",
+          "Num de cuartos",
+          "Piso",
+          "Área del departamento",
+          "Área del balcon",
+          "Estado",
+        ]
+        let datos = [
+          [
+            "Nombre",
+            "Categoría",
+            "Num de cuartos",
+            "Piso",
+            "Área del departamento",
+            "Área del balcon",
+            "Estado",
+          ],
+          [
+            "Nombre",
+            "Categoría",
+            "Num de cuartos",
+            "Piso",
+            "Área del departamento",
+            "Área del balcon",
+            "Estado",
+          ],
+          [
+            "Nombre",
+            "Categoría",
+            "Num de cuartos",
+            "Piso",
+            "Área del departamento",
+            "Área del balcon",
+            "Estado",
+          ],
+        ]
+
+        generarEncabezado(encabezados)
+        generarDatos(datos)
+      }
+
+      docReady(cargarDatos)
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div
+              id="depa_disponibilidad"
+              class="col-12 table-responsive table-borderless"
+            >
+              <h3 class="font-bold">DISPONIBILIDAD</h3>
+              <h3 class="">DEPAS</h3>
+
+              <table class="table table-hover tabla_depa_disponibilidad">
+                <thead>
+                  <tr>
+                    <th id="depa_disponibilidad_template_head" scope="col">
+                      {{DATA}}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="depa_disponibilidad_template_tr"></tr>
+                  <tr
+                    id="depa_disponibilidad_template_tr_espacio"
+                    class="espacio"
+                  ></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
