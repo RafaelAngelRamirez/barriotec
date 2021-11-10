@@ -39,7 +39,7 @@ odoo.define("website.user_custom_code", function (require) {
 
     //Agregamos uno al principio y al final
     // para estilizar
-    if (!headerTemplate) return falaw
+    if (!headerTemplate) return false
     let trHead = headerTemplate.parentElement
 
     encabezados.forEach(x => {
