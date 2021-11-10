@@ -6,11 +6,11 @@
 // world !' message in a popup:
 //
 
-odoo.define('website.user_custom_code', function (require) {
-'use strict';
+odoo.define("website.user_custom_code", function (require) {
+  "use strict"
 
-   require('web.dom_ready')
-   
+  require("web.dom_ready")
+
   function docReady(fn) {
     // see if DOM is already available
     if (
@@ -45,9 +45,7 @@ odoo.define('website.user_custom_code', function (require) {
   }
 
   function generarDatos(datos) {
-    let trTemplate = document.getElementById(
-      "depa_disponibilidad_template_tr"
-    )
+    let trTemplate = document.getElementById("depa_disponibilidad_template_tr")
     let trEspacioTemplate = document.getElementById(
       "depa_disponibilidad_template_tr_espacio"
     )
@@ -72,67 +70,52 @@ odoo.define('website.user_custom_code', function (require) {
 
   function cargarDatos(datos) {
     let encabezados = [
-      ["Nombre", "name" ]
-      ["Categoría", "public_categ_ids" ]
-      ["Num de cuartos","booking_rom_num" ]
-      ["Piso", "booking_floor"]
-      ["Área del departamento", "booking_area" ]
-      ["Área del balcon", "booking_lookout_area"]
-      ["Estado", "is_booking_type" ]
+      ["Nombre", "name"][("Categoría", "public_categ_ids")][
+        ("Num de cuartos", "booking_rom_num")
+      ][("Piso", "booking_floor")][("Área del departamento", "booking_area")][
+        ("Área del balcon", "booking_lookout_area")
+      ][("Estado", "is_booking_type")],
     ]
-    
-    
 
-   
-    generarEncabezado(encabezados.map(x=> x[0]))
-            
-    // $('#query').click(getProductBySKU);
-    function getProductBySKU(){
-       
-        var model = 'product.template';
-        // Use an empty array to search for all the records
-        var domain = [];
-        // Use an empty array to read all the fields of the records
-        var fields = encabezados.map(x=>x[1]);
-        var rpc = require('web.rpc');
-        var res = rpc.query({
-            model,
-            method: 'search_read',
-            args: [domain, []]
-        }).then( (products)=> {
-             
-            // alert(products)
-            console.log({products})
-            // let campos = encabezados.map(x=>x[1])
-            // let datos = products.map(product=>{
-                
-            //     let r = []
-            //     campos.forEach(campo=>{
-                    
-            //         if(product.hasOwnProperty(campo))    
-            //             r.push(product[campo])
-            //         else r.push('')
-                    
-            //     })
-                
-            //     return r
-            // })
-            
-           
-            
-            
-            // generarDatos(datos)
-    
-        });
-        };
-        
-        
-    getProductBySKU()
+    generarEncabezado(encabezados.map(x => x[0]))
+
+    function getProductBySKU() {
+      var model = "product.template"
+      // Use an empty array to search for all the records
+      var domain = []
+      // Use an empty array to read all the fields of the records
+      var fields = encabezados.map(x => x[1])
+      var rpc = require("web.rpc")
+      rpc
+        .query({
+          model,
+          method: "search_read",
+          args: [domain, []],
+        })
+        .then(products => {
+          // alert(products)
+          console.log({ products })
+          // let campos = encabezados.map(x=>x[1])
+          // let datos = products.map(product=>{
+
+          //     let r = []
+          //     campos.forEach(campo=>{
+
+          //         if(product.hasOwnProperty(campo))
+          //             r.push(product[campo])
+          //         else r.push('')
+
+          //     })
+
+          //     return r
+          // })
+
+          // generarDatos(datos)
+        })
     }
 
-    docReady(cargarDatos)
-  
-   
-  
-});
+    getProductBySKU()
+  }
 
+  docReady(cargarDatos)
+})
