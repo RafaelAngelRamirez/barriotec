@@ -70,11 +70,13 @@ odoo.define("website.user_custom_code", function (require) {
 
   function cargarDatos(datos) {
     let encabezados = [
-      ["Nombre", "name"][("Categoría", "public_categ_ids")][
-        ("Num de cuartos", "booking_rom_num")
-      ][("Piso", "booking_floor")][("Área del departamento", "booking_area")][
-        ("Área del balcon", "booking_lookout_area")
-      ][("Estado", "is_booking_type")],
+      ["Nombre", "name"],
+      ["Categoría", "public_categ_ids"],
+      ["Num de cuartos", "booking_rom_num"],
+      ["Piso", "booking_floor"],
+      ["Área del departamento", "booking_area"],
+      ["Área del balcon", "booking_lookout_area"],
+      ["Estado", "is_booking_type"],
     ]
 
     generarEncabezado(encabezados.map(x => x[0]))
@@ -86,33 +88,32 @@ odoo.define("website.user_custom_code", function (require) {
       const domain = []
       // Use an empty array to read all the fields of the records
       //   const fields = encabezados.map(x => x[1])
-      const fields = []
-      const rpc = require("web.rpc")
+      const fields = ["name"]
       const options = {
         model,
         method,
         args: [domain, fields],
       }
-      rpc.query(options).then(products => {
-        // alert(products)
-        console.log({ products })
-        // let campos = encabezados.map(x=>x[1])
-        // let datos = products.map(product=>{
+      const rpc = require("web.rpc")
+      rpc
+        .query(options)
+        .then(products => {
+          // alert(products)
+          //   console.log({ products })
+          let campos = encabezados.map(x => x[1])
+          let datos = products.map(product => {
+            let r = []
+            campos.forEach(campo => {
+              if (product.hasOwnProperty(campo)) r.push(product[campo])
+              else r.push("")
+            })
 
-        //     let r = []
-        //     campos.forEach(campo=>{
+            return r
+          })
 
-        //         if(product.hasOwnProperty(campo))
-        //             r.push(product[campo])
-        //         else r.push('')
-
-        //     })
-
-        //     return r
-        // })
-
-        // generarDatos(datos)
-      })
+          generarDatos(datos)
+        })
+        .catch(err => console.error(err))
     }
 
     getProductBySKU()
