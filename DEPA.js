@@ -25,7 +25,7 @@ odoo.define("website.user_custom_code", function (require) {
     {
       encabezado: "Área del balcon",
       campo: "booking_lookout_area",
-      transformacion: null,
+      transformacion: (numero) => numero?numero:"N/A",
     },
     {
       encabezado: "Estado",
