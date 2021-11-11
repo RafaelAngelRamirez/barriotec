@@ -1,0 +1,50 @@
+/* .slide-image {
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+}
+#carousel {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100vw;
+  height: 100vh;
+} */
+
+/* .arrow {
+  width: 5%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+#right-arrow {
+  right: 20px;
+}
+
+#left-arrow {
+  left: 20px;
+} */
+
+.img_contenedor {
+    height: 200px;
+    width: 200px;
+    background-color: red;
+    float: left;
+    position: relative;
+}
+
+
+
+@media (max-device-width: 1024px) {
+  /* .arrow {
+    width: 20%; */
+  }
+}
+
+@media (max-width: 768px) {
+  /* .arrow {
+    width: 10%; */
+  /* } */
+}
