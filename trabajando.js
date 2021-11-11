@@ -3,14 +3,35 @@ odoo.define("website.user_custom_code", function (require) {
 
   require("web.dom_ready")
 
-  const encabezados = [
-    ["Nombre", "name"],
-    ["Categoría", "public_categ_ids"],
-    ["Num de cuartos", "booking_rom_num"],
-    ["Piso", "booking_floor"],
-    ["Área del departamento", "booking_area"],
-    ["Área del balcon", "booking_lookout_area"],
-    ["Estado", "is_booking_type"],
+  //  [ ENCABEZADO_TABLA, CAMPO_ODOO, TRANSFORMACION ]
+  const accessoADatos = [
+    { encabezado: "Nombre", campo: "name", transformacion: null },
+    {
+      encabezado: "Categoría",
+      campo: "categ_id",
+      transformacion: arregloDato => arregloDato[1],
+    },
+    {
+      encabezado: "Num de cuartos",
+      campo: "booking_rom_num",
+      transformacion: null,
+    },
+    { encabezado: "Piso", campo: "booking_floor", transformacion: null },
+    {
+      encabezado: "Área del departamento",
+      campo: "booking_area",
+      transformacion: null,
+    },
+    {
+      encabezado: "Área del balcon",
+      campo: "booking_lookout_area",
+      transformacion: null,
+    },
+    {
+      encabezado: "Estado",
+      campo: "is_booking_type",
+      transformacion: booleano => (booleano ? "Disponible" : "No disponible"),
+    },
   ]
 
   function docReady(fn) {
@@ -77,8 +98,8 @@ odoo.define("website.user_custom_code", function (require) {
     })
   }
 
-  function cargarDatos(datos) {
-    let continuar = generarEncabezado(encabezados.map(x => x[0]))
+  function cargarDatos() {
+    let continuar = generarEncabezado(accessoADatos.map(x => x.encabezado))
     if (!continuar) return
     function getProductBySKU() {
       const model = "product.template"
@@ -86,7 +107,7 @@ odoo.define("website.user_custom_code", function (require) {
       // Use an empty array to search for all the records
       const domain = [["is_booking_type", "=", true]]
       // Use an empty array to read all the fields of the records
-      const fields = encabezados.map(x => x[1])
+      const fields = accessoADatos.map(x => x.campo)
       const options = {
         model,
         method,
@@ -96,11 +117,18 @@ odoo.define("website.user_custom_code", function (require) {
       rpc
         .query(options)
         .then(products => {
-          let campos = encabezados.map(x => x[1])
           let datos = products.map(product => {
-            return campos.map(campo => {
-              if (product.hasOwnProperty(campo)) return product[campo]
-              return ""
+            return accessoADatos.map(accD => {
+              if (product.hasOwnProperty(accD.campo)) {
+                if (accD.transformacion) {
+                  //Los campos pupulados vienen en un arreglo de datos.
+                  //Si necesitamos más información, lo extraemos con el dato
+                  // que almacenamos en el arreglo de campos (TRANSFORMACION)
+                  return accD.transformacion(product[accD.campo])
+                }
+                return product[accD.campo]
+              }
+              return "CAMPO NO DISPOIBLE"
             })
           })
 
