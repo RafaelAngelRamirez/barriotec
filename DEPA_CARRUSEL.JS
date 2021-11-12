@@ -18,10 +18,9 @@ $(document).ready(function () {
       let $nuevo = plantilla.clone()
       $nombre = $nuevo.find(refs.carrusel_nombre).text(dato.nombre)
       $nuevo
-        .click(mostrarDetalle)
+        .click(() => mostrarDetalle(dato))
         .removeAttr("id")
         .insertBefore(plantilla)
-
         .find("img")
         .attr("data-lazy", dato.src)
     })
@@ -29,8 +28,8 @@ $(document).ready(function () {
     plantilla.remove()
   }
 
-  function mostrarDetalle() {
-    alert("Sin definir funcion")
+  function mostrarDetalle(dato) {
+    console.log(dato)
   }
 
   function ejecutarCarrusel() {
