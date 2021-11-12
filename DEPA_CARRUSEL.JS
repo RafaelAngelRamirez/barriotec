@@ -18,11 +18,12 @@ $(document).ready(function () {
       let $nuevo = plantilla.clone()
       $nombre = $nuevo.find(refs.carrusel_nombre).text(dato.nombre)
       $nuevo
+        .click(mostrarDetalle)
+        .removeAttr("id")
+        .insertBefore(plantilla)
+
         .find("img")
         .attr("data-lazy", dato.src)
-        .removeAttr("id")
-        .click(() => mostrarDetalle)
-      $nuevo.insertBefore(plantilla)
     })
 
     plantilla.remove()
