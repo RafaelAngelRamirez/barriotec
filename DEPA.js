@@ -216,6 +216,10 @@ odoo.define("website.user_custom_code", function (require) {
 
   $(document).ready(() => {
     // generarTabla()
-    generarCarrusel()
+
+    $.getScript(
+      "//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js",
+      generarCarrusel
+    )
   })
 })
