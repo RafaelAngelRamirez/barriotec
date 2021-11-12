@@ -1,3 +1,34 @@
+tr,
+td,
+th {
+  color: white;
+}
+
+.tabla_depa_disponibilidad > tbody > tr > td,
+.tabla_depa_disponibilidad > tbody > tr > th,
+.tabla_depa_disponibilidad > tfoot > tr > td,
+.tabla_depa_disponibilidad > tfoot > tr > th,
+.tabla_depa_disponibilidad > thead > tr > td,
+.tabla_depa_disponibilidad > thead > tr > th {
+  padding: 2px;
+}
+.tabla_depa_disponibilidad > tbody > tr.espacio > td {
+  padding: 5px;
+}
+
+#depa_disponibilidad {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 50px;
+  padding-left: 50px;
+  background-color: rgba(0, 0, 255, 0.5);
+}
+
+.table-hover tbody tr.espacio:hover td,
+.table-hover tbody tr.espacio:hover th {
+  background-color: unset;
+}
+
 .carrusel_contenido {
   cursor: pointer;
 }

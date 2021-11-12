@@ -1,7 +1,15 @@
-// odoo.define("website.user_custom_code", function (require) {
-// ;("use strict")
+//------------------------------
+// GLOBALES
+//------------------------------
+/**
+ * En modo producción almacena el resutlado de require('web.rpc')
+ */
+let rpc = null
 
-// require("web.dom_ready")
+/**
+ * Para pruebas en dev
+ */
+let debug = true
 
 //------------------------------
 // TABLA
@@ -104,28 +112,38 @@ function generarTabla() {
       method,
       args: [domain, fields],
     }
-    const rpc = require("web.rpc")
-    rpc
-      .query(options)
-      .then(products => {
-        let datos = products.map(product => {
-          return accessoADatos.map(accD => {
-            if (product.hasOwnProperty(accD.campo)) {
-              if (accD.transformacion) {
-                //Los campos pupulados vienen en un arreglo de datos.
-                //Si necesitamos más información, lo extraemos con el dato
-                // que almacenamos en el arreglo de campos (TRANSFORMACION)
-                return accD.transformacion(product[accD.campo])
-              }
-              return product[accD.campo]
-            }
-            return "CAMPO NO DISPOIBLE"
-          })
-        })
 
-        generarDatos(datos)
-      })
-      .catch(err => console.error(err))
+    if (rpc) {
+      rpc
+        .query(options)
+        .then(products => {
+          let datos = products.map(product => {
+            return accessoADatos.map(accD => {
+              if (product.hasOwnProperty(accD.campo)) {
+                if (accD.transformacion) {
+                  //Los campos pupulados vienen en un arreglo de datos.
+                  //Si necesitamos más información, lo extraemos con el dato
+                  // que almacenamos en el arreglo de campos (TRANSFORMACION)
+                  return accD.transformacion(product[accD.campo])
+                }
+                return product[accD.campo]
+              }
+              return "CAMPO NO DISPONIBLE"
+            })
+          })
+
+          generarDatos(datos)
+        })
+        .catch(err => console.error(err))
+    } else {
+      console.error("[ WARNING ] Estas en modo debug!")
+      const dummyData = [
+        ["DEPA 301", "Departamento", "3", "1", "23", "2", "Disponible"],
+        ["Depa 101", "Departamento", "2", "1", "80", "N/A", "Disponible"],
+        ["Depa 201", "Departamento", "2", "2", "100", "6", "Disponible"],
+      ]
+      generarDatos(dummyData)
+    }
   }
 
   getProductBySKU()
@@ -145,7 +163,9 @@ function generarCarrusel() {
     let contador = 0
     const datos = new Array(10).fill(null).map(x => {
       return {
-        src: "https://barriotec-testweb-3531788.dev.odoo.com/web/image/574-a75ba442/DEPTO_702-B.png?deste=" + Math.random(),
+        src:
+          "https://barriotec-testweb-3531788.dev.odoo.com/web/image/574-a75ba442/DEPTO_702-B.png?deste=" +
+          Math.random(),
         nombre: "DEPA" + contador++,
       }
     })
@@ -172,7 +192,7 @@ function generarCarrusel() {
       infinite: true,
       slidesToShow: 4,
       slidesToScroll: 4,
-      autoplay: true,
+      // autoplay: true,
       autoplaySpeed: 2000,
 
       responsive: [
@@ -213,11 +233,8 @@ function generarCarrusel() {
   ejecutarCarrusel()
 }
 
-$(document).ready(() => {
-  // generarTabla()
-
+function prepararDatosCarrusel() {
   //CARRUSEL
-
   ;[
     "//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css",
     "//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css",
@@ -231,7 +248,27 @@ $(document).ready(() => {
 
   $.getScript(
     "//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js",
-    generarCarrusel
+    () => generarCarrusel()
   )
-})
-// })
+}
+
+function document_ready() {
+  $(document).ready(() => {
+    generarTabla()
+    prepararDatosCarrusel()
+  })
+}
+
+// -----------------------------
+// CONFIGURACIONES Y PREPARACIONES
+// -----------------------------
+
+if (debug) document_ready()
+else
+  odoo.define("website.user_custom_code", function (require) {
+    ;("use strict")
+
+    require("web.dom_ready")
+    rpc = require("web.rpc")
+    document_ready()
+  })

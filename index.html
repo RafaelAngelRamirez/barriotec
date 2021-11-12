@@ -18,7 +18,7 @@
     />
     <link rel="stylesheet" href="DEPA_CARRUSEL.css" />
     <!-- Add the slick-theme.css if you want default styling -->
-  
+
     <style>
       body {
         background-color: gray;
@@ -27,6 +27,49 @@
     <script src="/reload/reload.js"></script>
   </head>
   <body>
+    <div class="container">
+      <br />
+      <br />
+      <div class="container">
+        <div class="row">
+          <div class="col-12 o_colored_level undefined col-lg-12" style="">
+            <div class="row">
+              <div
+                id="depa_disponibilidad"
+                class="
+                  col-12
+                  table-responsive table-borderless
+                  o_colored_level
+                  pt48
+                  pb32
+                "
+              >
+                <h2 class="font-bold text-white">
+                  <b>DISPONIBILIDAD</b>
+                </h2>
+                <h3 class="text-white">DEPAS</h3>
+                <table class="table table-hover tabla_depa_disponibilidad">
+                <thead>
+                  <tr>
+                    <th id="depa_disponibilidad_template_head" scope="col">
+                      {{DATA}}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="depa_disponibilidad_template_tr"></tr>
+                  <tr
+                    id="depa_disponibilidad_template_tr_espacio"
+                    class="espacio"
+                  ></tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <br />
       <br />
@@ -62,7 +105,6 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    
 
     <script type="text/javascript" src="DEPA.js?par=234"></script>
   </body>
