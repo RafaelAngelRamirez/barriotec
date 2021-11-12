@@ -30,27 +30,6 @@
   width: auto;
 }
 
-.arrow-1 {
-  width: 20px;
-  height: 10px;
-  display: flex;
-  float: right;
-}
-.arrow-1:before {
-  content: "";
-  background: black;
-  width: 20px;
-  clip-path: polygon(
-    0 2px,
-    calc(100% - 5px) 2px,
-    calc(100% - 5px) 0,
-    100% 50%,
-    calc(100% - 5px) 100%,
-    calc(100% - 5px) calc(100% - 2px),
-    0 calc(100% - 2px)
-  );
-}
-
 .carrusel_nombre {
   display: block;
   padding-left: 30px;
