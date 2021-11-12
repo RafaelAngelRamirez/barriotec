@@ -1,3 +1,7 @@
+.carrusel_contenido {
+  cursor: pointer;
+}
+
 .carrusel_contenedor {
   padding-top: 40px;
   padding-bottom: 40px;
@@ -7,16 +11,11 @@
   width: 100%;
 }
 
-.carrusel_contenido {
-  position: relative;
-  display: inline-block;
-}
-
 .carrusel_contenedor_img {
   /* background-color: red; */
   width: 250px;
   height: 250px;
-
+  cursor: pointer;
   position: relative;
   overflow: hidden;
 }
@@ -36,7 +35,6 @@
   height: 10px;
   display: flex;
   float: right;
-  cursor: pointer;
 }
 .arrow-1:before {
   content: "";
@@ -51,17 +49,6 @@
     calc(100% - 5px) calc(100% - 2px),
     0 calc(100% - 2px)
   );
-}
-
-.left {
-  transform: rotate(180deg);
-  margin-right: 30px;
-}
-
-.carrusel_contenedor_flechas {
-  padding-bottom: 30px;
-  padding-right: 40px;
-  /* padding-top: 30px; */
 }
 
 .carrusel_nombre {

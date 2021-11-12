@@ -21,20 +21,22 @@ $(document).ready(function () {
         .find("img")
         .attr("data-lazy", dato.src)
         .removeAttr("id")
-        .click(() => compartirDatos)
+        .click(() => mostrarDetalle)
       $nuevo.insertBefore(plantilla)
     })
 
     plantilla.remove()
   }
 
-  function compartirDatos(){ }
+  function mostrarDetalle() {
+    alert("Sin definir funcion")
+  }
 
   function ejecutarCarrusel() {
     $(refs.carrusel_contenedor).slick({
       infinite: true,
-      slidesToShow: 5,
-      slidesToScroll: 5,
+      slidesToShow: 4,
+      slidesToScroll: 4,
       lazyLoad: "ondemand",
       autoplay: true,
       autoplaySpeed: 2000,
