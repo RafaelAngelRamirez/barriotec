@@ -194,6 +194,7 @@ function generarCarrusel() {
       slidesToScroll: 4,
       autoplay: true,
       autoplaySpeed: 2000,
+      dots: true,
 
       responsive: [
         {
