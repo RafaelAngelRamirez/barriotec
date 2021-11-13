@@ -66,3 +66,16 @@ th {
   padding-left: 30px;
   font-weight: bold;
 }
+
+.slick-prev:before,
+.slick-next:before {
+  color: black !important;
+}
+
+.slick-prev {
+  left: 0px !important;
+}
+
+.slick-next {
+  right: 0px !important;
+}
