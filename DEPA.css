@@ -79,3 +79,8 @@ th {
 .slick-next {
   right: 0px !important;
 }
+
+.slick-track {
+  /* min-width: 100%; */
+  transform: translate3d(0, 0, 0)!important;
+}
