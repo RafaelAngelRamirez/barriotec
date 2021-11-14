@@ -175,7 +175,7 @@ function generarCarrusel() {
     const datos = new Array(10).fill(null).map(x => {
       return {
         src:
-          "http://lorempixel.com/1000/1000/people/1" +
+          "http://lorempixel.com/800/1000/people/" +
           Math.round(Math.random() * 10),
         nombre: "DEPA" + contador++,
         descripcion: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
