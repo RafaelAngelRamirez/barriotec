@@ -123,31 +123,37 @@
       <div class="row depa_detalle p-3">
         <div class="col-12 col-lg-6 p-0 m-0">
           <img
+            id="depa_detalle_img"
             src="http://lorempixel.com/700/500"
             class="img-fluid depa_detalle_img"
           />
         </div>
         <div class="col-12 col-lg-6 mt-auto mb-auto">
           <div class="">
-            <h2>{{NOMBRE DEPA}}</h2>
-            <p class="text-justify">
+            <h2 id="depa_detalle_nombre">{{NOMBRE DEPA}}</h2>
+            <p id="depa_detalle_descripcion" class="text-justify">
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Exercitationem alias, sunt velit eligendi mollitia libero
               laudantium a quos. Tempora quam repellat adipisci quis iure
               doloribus facilis deleniti architecto quas repellendus!
             </p>
-            <h4>${{9999.999}}</h4>
+            <h4 id="depa_detalle_precio">${{9999.999}}</h4>
             <hr />
 
             <div class="row">
               <div class="col-12 col-md-6 col-xl-4">
-                <b>Depa:</b> {{992.34}} m<sup>2</sup>.
+                <b>Area depa:</b>
+                <span id="depa_detalle_area_depa">{{992.34}}</span>
+                m<sup>2</sup>.
               </div>
               <div class="col-12 col-md-6 col-xl-4">
-                <b>Balcón:</b> {{999.99}} m<sup>2</sup>.
+                <b>Area balcón:</b>
+                <span id="depa_detalle_area_balcon">{{992.34}}</span>
+                m<sup>2</sup>.
               </div>
               <div class="col-12 col-md-6 col-xl-4">
-                <b>Cuartos:</b>{{999}}.
+                <b>Cuartos:</b
+                ><span id="depa_detalle_cuartos">{{992.34}}</span>.
               </div>
             </div>
           </div>
@@ -187,9 +193,9 @@
           </div>
         </div>
       </div>
-      
-      <br>
-      <br>
+
+      <br />
+      <br />
       <div class="row bg-white mb-0 mt-5 pt-5 pl-5">
         <div class="col-12">
           <h1>PLANO</h1>
@@ -201,8 +207,6 @@
             <img src="http://lorempixel.com/1000/1000" />
           </div>
         </div>
-
-      
       </div>
     </div>
 

@@ -159,14 +159,33 @@ function generarCarrusel() {
     carrusel_plantilla: "#carrusel_plantilla",
     carrusel_nombre: ".carrusel_nombre",
   }
+
+  function mostrarDetalleDepa(datos) {
+    $("#depa_detalle_nombre").text(datos.nombre)
+    $("#depa_detalle_descripcion").text(datos.descripcion)
+    $("#depa_detalle_img").attr("src", datos.src)
+    $("#depa_detalle_precio").text(datos.precio)
+    $("#depa_detalle_area_depa").text(datos.area_depa)
+    $("#depa_detalle_area_balcon").text(datos.area_balcon)
+    $("#depa_detalle_cuartos").text(datos.cuartos)
+  }
+
   function construirCarrusel(XXdatos) {
     let contador = 0
     const datos = new Array(10).fill(null).map(x => {
       return {
         src:
-          "https://barriotec-testweb-3531788.dev.odoo.com/web/image/574-a75ba442/DEPTO_702-B.png?deste=" +
-          Math.random(),
+          "http://lorempixel.com/1000/1000/people/1" +
+          Math.round(Math.random() * 10),
         nombre: "DEPA" + contador++,
+        descripcion: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Exercitationem alias, sunt velit eligendi mollitia libero
+              laudantium a quos. Tempora quam repellat adipisci quis iure
+              doloribus facilis deleniti architecto quas repellendus!`,
+        precio: "99999.99",
+        area_depa: "999",
+        area_balcon: "999",
+        cuartos: "999",
       }
     })
 
@@ -175,9 +194,7 @@ function generarCarrusel() {
       let $nuevo = plantilla.clone()
       $nombre = $nuevo.find(refs.carrusel_nombre).text(dato.nombre)
       $nuevo
-        .click(() => {
-          console.log("Mostrar detalle: ", dato)
-        })
+        .click(() => mostrarDetalleDepa(dato))
         .removeAttr("id")
         .insertBefore(plantilla)
         .find("img")
