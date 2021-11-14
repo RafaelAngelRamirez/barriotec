@@ -170,24 +170,25 @@ function generarCarrusel() {
     $("#depa_detalle_cuartos").text(datos.cuartos)
   }
 
-  function construirCarrusel(XXdatos) {
-    let contador = 0
-    const datos = new Array(10).fill(null).map(x => {
-      return {
-        src:
-          "http://lorempixel.com/800/1000/people/" +
-          Math.round(Math.random() * 10),
-        nombre: "DEPA" + contador++,
-        descripcion: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Exercitationem alias, sunt velit eligendi mollitia libero
-              laudantium a quos. Tempora quam repellat adipisci quis iure
-              doloribus facilis deleniti architecto quas repellendus!`,
-        precio: "99999.99",
-        area_depa: "999",
-        area_balcon: "999",
-        cuartos: "999",
-      }
-    })
+  function construirCarrusel(datos) {
+    if (debug) {
+      let contador = 0
+      const ran = () => Math.round(Math.random() * 8) +1
+      datos = new Array(10).fill(null).map(x => {
+        return {
+          src: `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran(),
+          nombre: "DEPA" + contador++,
+          descripcion: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Exercitationem alias, sunt velit eligendi mollitia libero
+                laudantium a quos. Tempora quam repellat adipisci quis iure
+                doloribus facilis deleniti architecto quas repellendus!`,
+          precio: "99999.99",
+          area_depa: "999",
+          area_balcon: "999",
+          cuartos: "999",
+        }
+      })
+    }
 
     let plantilla = $(refs.carrusel_plantilla)
     datos.forEach(dato => {
