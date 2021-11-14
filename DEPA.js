@@ -249,8 +249,19 @@ function prepararDatosCarrusel() {
 
   $.getScript(
     "//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js",
-    () => generarCarrusel()
+    () => {
+      generarCarrusel()
+      generarGaleriaDetalle()
+    }
   )
+}
+
+function generarGaleriaDetalle() {
+  $(".depa_detalle_galeria").slick({
+    fade: true,
+    autoplay: true,
+    dots: true,
+  })
 }
 
 function document_ready() {

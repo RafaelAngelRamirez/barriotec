@@ -1,3 +1,4 @@
+/*--------------------- TABLA --------------------- */
 tr,
 td,
 th {
@@ -29,6 +30,7 @@ th {
   background-color: unset;
 }
 
+/*--------------------- CARRUSEL --------------------- */
 .carrusel_contenido {
   cursor: pointer;
 }
@@ -72,15 +74,41 @@ th {
   color: black !important;
 }
 
+
+
+/*--------------------- DETALLE DEPA --------------------- */
+.depa_detalle {
+  background-color: rgb(255, 255, 255);
+}
+.depa_detalle_img {
+  border-radius: 15px;
+}
+
+.depa_detalle_galeria_img {
+  min-width: 800px;
+  min-height: 800px;
+  overflow: hidden;
+}
+
+.depa_detalle_galeria_img img {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  right: -9999px;
+  bottom: -9999px;
+  margin: auto;
+  width: auto;
+}
+
 .slick-prev {
-  left: 0px !important;
+  left: 10px !important;
 }
 
 .slick-next {
-  right: 0px !important;
+  right: 10px !important;
 }
 
 .slick-track {
-  /* min-width: 100%; */
-  transform: translate3d(0, 0, 0)!important;
+  /* min-width: 100%;
+  transform: translate3d(0, 0, 0) !important; */
 }
