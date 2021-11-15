@@ -163,20 +163,42 @@ function generarCarrusel() {
   function mostrarDetalleDepa(datos) {
     $("#depa_detalle_nombre").text(datos.nombre)
     $("#depa_detalle_descripcion").text(datos.descripcion)
-    $("#depa_detalle_img").attr("src", datos.src)
+    $("#depa_detalle_img").attr("src", datos.src[0])
     $("#depa_detalle_precio").text(datos.precio)
     $("#depa_detalle_area_depa").text(datos.area_depa)
     $("#depa_detalle_area_balcon").text(datos.area_balcon)
     $("#depa_detalle_cuartos").text(datos.cuartos)
+    // GALERIA
+
+    let padreT = $("#depa_detalle_template")
+    let template = $("#depa_detalle_template:first-child")
+    console.log({ template, padreT })
+    datos.src.forEach(src => {
+      let nuevo = template.clone()
+      nuevo.find("img").attr("src", src)
+      nuevo.insertBefore(padreT)
+    })
+
+    // template.remove()
+
+    $("#depa_detalle_galeria").slick({
+      fade: true,
+      autoplay: true,
+      dots: true,
+    })
   }
 
   function construirCarrusel(datos) {
     if (debug) {
       let contador = 0
-      const ran = () => Math.round(Math.random() * 8) +1
+      const ran = () => Math.round(Math.random() * 4) + 4
       datos = new Array(10).fill(null).map(x => {
         return {
-          src: `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran(),
+          src: new Array(5)
+            .fill(null)
+            .map(
+              x => `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran()
+            ),
           nombre: "DEPA" + contador++,
           descripcion: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Exercitationem alias, sunt velit eligendi mollitia libero
@@ -195,11 +217,14 @@ function generarCarrusel() {
       let $nuevo = plantilla.clone()
       $nombre = $nuevo.find(refs.carrusel_nombre).text(dato.nombre)
       $nuevo
-        .click(() => mostrarDetalleDepa(dato))
+        .click(() => {
+          console.log("debe hacer click")
+          mostrarDetalleDepa(dato)
+        })
         .removeAttr("id")
         .insertBefore(plantilla)
         .find("img")
-        .attr("src", dato.src)
+        .attr("src", dato.src[0])
     })
 
     plantilla.remove()
@@ -269,17 +294,8 @@ function prepararDatosCarrusel() {
     "//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js",
     () => {
       generarCarrusel()
-      generarGaleriaDetalle()
     }
   )
-}
-
-function generarGaleriaDetalle() {
-  $(".depa_detalle_galeria").slick({
-    fade: true,
-    autoplay: true,
-    dots: true,
-  })
 }
 
 function document_ready() {
