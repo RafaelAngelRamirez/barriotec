@@ -74,8 +74,6 @@ th {
   color: black !important;
 }
 
-
-
 /*--------------------- DETALLE DEPA --------------------- */
 .depa_detalle {
   background-color: rgb(255, 255, 255);
@@ -97,7 +95,7 @@ th {
   right: -9999px;
   bottom: -9999px;
   margin: auto;
-  width: auto;
+  width: 100%;
 }
 
 .slick-prev {
