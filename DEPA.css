@@ -110,7 +110,7 @@ th {
   right: -9999px;
   bottom: -9999px;
   margin: auto;
-  width: 100%;
+  width: auto;
 }
 
 .slick-prev {

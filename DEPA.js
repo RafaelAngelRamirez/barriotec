@@ -195,8 +195,8 @@ function generarCarrusel() {
       dots: true,
     })
 
-    //Plano 
-    
+    // PLANO
+    $(".depa_detalle_plano_img").find("img").attr("src", datos.plano)
   }
 
   function construirCarrusel(datos) {
@@ -219,6 +219,7 @@ function generarCarrusel() {
           area_depa: "999",
           area_balcon: "999",
           cuartos: "999",
+          plano: `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran(),
         }
       })
     }
