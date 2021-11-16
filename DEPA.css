@@ -97,6 +97,21 @@ th {
   margin: auto;
   width: 100%;
 }
+.depa_detalle_plano_img {
+  min-width: 800px;
+  min-height: 800px;
+  overflow: hidden;
+}
+
+.depa_detalle_plano_img img {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  right: -9999px;
+  bottom: -9999px;
+  margin: auto;
+  width: 100%;
+}
 
 .slick-prev {
   left: 10px !important;

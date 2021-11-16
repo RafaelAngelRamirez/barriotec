@@ -194,6 +194,9 @@ function generarCarrusel() {
       autoplay: true,
       dots: true,
     })
+
+    //Plano 
+    
   }
 
   function construirCarrusel(datos) {
