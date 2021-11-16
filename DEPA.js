@@ -153,13 +153,18 @@ function generarTabla() {
 // CARRUSEL
 //------------------------------
 
-function generarCarrusel() {
+function inicializarSlide() {
   const refs = {
     carrusel_contenedor: ".carrusel_contenedor",
     carrusel_plantilla: "#carrusel_plantilla",
     carrusel_nombre: ".carrusel_nombre",
   }
 
+  /**
+   *Construye y muestra los detalle del depa.
+   *
+   * @param {*} datos
+   */
   function mostrarDetalleDepa(datos) {
     $("#depa_detalle_nombre").text(datos.nombre)
     $("#depa_detalle_descripcion").text(datos.descripcion)
@@ -199,7 +204,13 @@ function generarCarrusel() {
     $(".depa_detalle_plano_img").find("img").attr("src", datos.plano)
   }
 
-  function construirCarrusel(datos) {
+  /**
+   *Genera las etiquetas html con los datos que se le
+   * pasen como parametros
+   *
+   * @param {*} datos
+   */
+  function construirSlide(datos) {
     if (debug) {
       let contador = 0
       const ran = () => Math.round(Math.random() * 4) + 4
@@ -250,7 +261,12 @@ function generarCarrusel() {
     plantilla.remove()
   }
 
-  function ejecutarCarrusel() {
+  /**
+   *Crea las animaciones del slide y lo activa despues
+   * de construidos los datos.
+   *
+   */
+  function ejecutarSlide() {
     $(refs.carrusel_contenedor).slick({
       // infinite: true,
       slidesToShow: 4,
@@ -293,11 +309,15 @@ function generarCarrusel() {
     })
   }
 
-  construirCarrusel(null)
-  ejecutarCarrusel()
+  construirSlide(null)
+  ejecutarSlide()
 }
 
-function prepararDatosCarrusel() {
+/**
+ *Carga los plugins e inicia la genracion del carrusel.
+ *
+ */
+function scriptsEInicializacion() {
   //CARRUSEL
   ;[
     "//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css",
@@ -312,16 +332,14 @@ function prepararDatosCarrusel() {
 
   $.getScript(
     "//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js",
-    () => {
-      generarCarrusel()
-    }
+    () => inicializarSlide()
   )
 }
 
 function document_ready() {
   $(document).ready(() => {
     generarTabla()
-    prepararDatosCarrusel()
+    scriptsEInicializacion()
   })
 }
 
