@@ -232,14 +232,14 @@ function generarCarrusel() {
         .click(() => {
           $(".depa_detalle_container").removeClass("show").addClass("collapse")
           mostrarDetalleDepa(dato)
-          // Hacemos scroll
-          $("html, body").animate(
-            {
-              scrollTop: $(".depa_detalle_container").offset().top,
-              easing: "ease-out",
-            },
-            500
-          )
+          // // Hacemos scroll
+          // $("html, body").animate(
+          //   {
+          //     scrollTop: $(".depa_detalle_container").offset().top,
+          //     easing: "ease-out",
+          //   },
+          //   500
+          // )
         })
         .removeAttr("id")
         .insertBefore(plantilla)
