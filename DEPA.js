@@ -168,18 +168,24 @@ function generarCarrusel() {
     $("#depa_detalle_area_depa").text(datos.area_depa)
     $("#depa_detalle_area_balcon").text(datos.area_balcon)
     $("#depa_detalle_cuartos").text(datos.cuartos)
+
     // GALERIA
 
+    try {
+      $("#depa_detalle_galeria").slick("unslick")
+    } catch (error) {}
+
     let padreT = $("#depa_detalle_template")
-    let template = $("#depa_detalle_template:first-child")
-    console.log({ template, padreT })
+    let template = $("#depa_detalle_template:first-child").clone()
+    $("#depa_detalle_template").empty()
+
     datos.src.forEach(src => {
       let nuevo = template.clone()
       nuevo.find("img").attr("src", src)
       nuevo.insertBefore(padreT)
     })
 
-    // template.remove()
+    template.remove()
 
     $("#depa_detalle_galeria").slick({
       fade: true,
@@ -218,8 +224,15 @@ function generarCarrusel() {
       $nombre = $nuevo.find(refs.carrusel_nombre).text(dato.nombre)
       $nuevo
         .click(() => {
-          console.log("debe hacer click")
           mostrarDetalleDepa(dato)
+          // Hacemos scroll
+          $("html, body").animate(
+            {
+              scrollTop: $(".depa_detalle_container").offset().top,
+              easing: "ease-out",
+            },
+            500
+          )
         })
         .removeAttr("id")
         .insertBefore(plantilla)
