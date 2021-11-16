@@ -175,6 +175,8 @@ function generarCarrusel() {
       $("#depa_detalle_galeria").slick("unslick")
     } catch (error) {}
 
+    $(".depa_detalle_container").removeClass("collapse").addClass("show")
+
     let padreT = $("#depa_detalle_template")
     let template = $("#depa_detalle_template:first-child").clone()
     $("#depa_detalle_template").empty()
@@ -224,6 +226,7 @@ function generarCarrusel() {
       $nombre = $nuevo.find(refs.carrusel_nombre).text(dato.nombre)
       $nuevo
         .click(() => {
+          $(".depa_detalle_container").removeClass("show").addClass("collapse")
           mostrarDetalleDepa(dato)
           // Hacemos scroll
           $("html, body").animate(
