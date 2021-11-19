@@ -1,19 +1,17 @@
 {
   "name": "odoo",
-  "version": "1.2.7",
+  "version": "1.2.11",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-local": "nodemon",
-    "release": "echo 'Empieza' ; standard-version",
-    "standard-version": {
-      "scripts": {
-        "postbump": "versionar_script",
-        "prebump": "echo Esta funcionano"
-      },
-      "postbump": "versionar_script",
-      "prebump": "echo Esta funcionano"
+    "release": "standard-version",
+    "versionar_script": "versionar_script"
+  },
+  "standard-version": {
+    "scripts": {
+      "postbump": "bash  -ic 'versionar_script'"
     }
   },
   "author": "",
