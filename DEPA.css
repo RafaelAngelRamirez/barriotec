@@ -129,3 +129,8 @@ th {
   min-width: 100%;
   transform: translate3d(0, 0, 0) !important;
 }
+
+.fondo {
+  background-image: url("https://img.freepik.com/foto-gratis/fondo-textura-pared-ladrillo-blanco-moderno_35257-348.jpg?size=626&ext=jpg");
+  background-repeat: repeat;
+}
