@@ -230,7 +230,7 @@ function inicializarSlide() {
         area_depa: x.booking_area,
         area_balcon: x.booking_lookout_area,
         cuartos: x.booking_rom_num,
-        plano: "",
+        plano: x.extra_image_data_uri,
       }
     })
 
