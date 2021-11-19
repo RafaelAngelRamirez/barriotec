@@ -221,9 +221,9 @@ function inicializarSlide() {
    * @param {*} datosDebug
    */
   function construirSlide(dataCruda) {
-    console.log({ dataCruda })
+    console.log({debug, dataCruda  })
 
-    let datos = dataCruda.map(x => {
+    let datos = dataCruda?.map(x => {
       return {
         nombre: x.name,
         //Este debe ser un arreglo de imagenes

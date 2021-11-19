@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-local": "nodemon",
-    "release": "standard-version",
+    "release": "standard-version"
   },
   "standard-version": {
     "scripts": {
