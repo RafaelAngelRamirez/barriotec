@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.13](///compare/v1.2.12...v1.2.13) (2021-11-19)
+
+
+### Bug Fixes
+
+* Fondo no dinamico 97c1778
+* Respaldo de server prod antes de subir datos 0bba7c5
+* separacion de ficheros para produccion 49fc891
+
 ### [1.2.12](///compare/v1.2.11...v1.2.12) (2021-11-19)
 
 
