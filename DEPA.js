@@ -9,7 +9,8 @@ let rpc = null
 /**
  * Para pruebas en dev
  */
-let debug = false
+let debug =
+  location.hostname === "localhost" || location.hostname === "127.0.0.1"
 
 const OPT = {
   /** Los campos que se quieren traer */
