@@ -9,7 +9,29 @@ let rpc = null
 /**
  * Para pruebas en dev
  */
-let debug = true
+let debug = false
+
+const OPT = {
+  /** Los campos que se quieren traer */
+  fields: [],
+  /** Filtros de busqueda */
+  domain: [["is_booking_type", "=", true]],
+}
+
+const OPERACIONES = {
+  getSkus: (opciones = OPT) => {
+    opciones = { ...OPT, ...opciones }
+    const model = "product.template"
+    const method = "search_read"
+    const options = {
+      model,
+      method,
+      args: [opciones.domain, opciones.fields],
+    }
+
+    return rpc.query(options)
+  },
+}
 
 //------------------------------
 // TABLA
@@ -100,53 +122,36 @@ function generarDatos(datos) {
 function generarTabla() {
   let continuar = generarEncabezado(accessoADatos.map(x => x.encabezado))
   if (!continuar) return
-  function getProductBySKU() {
-    const model = "product.template"
-    const method = "search_read"
-    // Use an empty array to search for all the records
-    const domain = [["is_booking_type", "=", true]]
-    // Use an empty array to read all the fields of the records
-    const fields = accessoADatos.map(x => x.campo)
-    const options = {
-      model,
-      method,
-      args: [domain, fields],
-    }
 
-    if (rpc) {
-      rpc
-        .query(options)
-        .then(products => {
-          let datos = products.map(product => {
-            return accessoADatos.map(accD => {
-              if (product.hasOwnProperty(accD.campo)) {
-                if (accD.transformacion) {
-                  //Los campos pupulados vienen en un arreglo de datos.
-                  //Si necesitamos más información, lo extraemos con el dato
-                  // que almacenamos en el arreglo de campos (TRANSFORMACION)
-                  return accD.transformacion(product[accD.campo])
-                }
-                return product[accD.campo]
+  if (debug) {
+    console.error("[ WARNING ] Estas en modo debug!")
+    const dummyData = [
+      ["DEPA 301", "Departamento", "3", "1", "23", "2", "Disponible"],
+      ["Depa 101", "Departamento", "2", "1", "80", "N/A", "Disponible"],
+      ["Depa 201", "Departamento", "2", "2", "100", "6", "Disponible"],
+    ]
+    generarDatos(dummyData)
+  } else
+    OPERACIONES.getSkus()
+      .then(products => {
+        let datos = products.map(product => {
+          return accessoADatos.map(accD => {
+            if (product.hasOwnProperty(accD.campo)) {
+              if (accD.transformacion) {
+                //Los campos pupulados vienen en un arreglo de datos.
+                //Si necesitamos más información, lo extraemos con el dato
+                // que almacenamos en el arreglo de campos (TRANSFORMACION)
+                return accD.transformacion(product[accD.campo])
               }
-              return "CAMPO NO DISPONIBLE"
-            })
+              return product[accD.campo]
+            }
+            return "CAMPO NO DISPONIBLE"
           })
-
-          generarDatos(datos)
         })
-        .catch(err => console.error(err))
-    } else {
-      console.error("[ WARNING ] Estas en modo debug!")
-      const dummyData = [
-        ["DEPA 301", "Departamento", "3", "1", "23", "2", "Disponible"],
-        ["Depa 101", "Departamento", "2", "1", "80", "N/A", "Disponible"],
-        ["Depa 201", "Departamento", "2", "2", "100", "6", "Disponible"],
-      ]
-      generarDatos(dummyData)
-    }
-  }
 
-  getProductBySKU()
+        generarDatos(datos)
+      })
+      .catch(_ => next(_))
 }
 
 //------------------------------
@@ -208,9 +213,26 @@ function inicializarSlide() {
    *Genera las etiquetas html con los datos que se le
    * pasen como parametros
    *
-   * @param {*} datos
+   * @param {*} datosDebug
    */
-  function construirSlide(datos) {
+  function construirSlide(dataCruda) {
+    console.log({ dataCruda })
+
+    let datos = dataCruda.map(x => {
+      return {
+        nombre: x.name,
+        //Este debe ser un arreglo de imagenes
+        src: [x.image_1024].map(i => `data:image/png;base64, ${i}`),
+        descripcion: x.description ?? "",
+        // Este es un array
+        precio: `${x.cost_currency_id.pop()} ${x.cost_currency_id.pop()}`,
+        area_depa: x.booking_area,
+        area_balcon: x.booking_lookout_area,
+        cuartos: x.booking_rom_num,
+        plano: "",
+      }
+    })
+
     if (debug) {
       let contador = 0
       const ran = () => Math.round(Math.random() * 4) + 4
@@ -243,14 +265,6 @@ function inicializarSlide() {
         .click(() => {
           $(".depa_detalle_container").removeClass("show").addClass("collapse")
           mostrarDetalleDepa(dato)
-          // // Hacemos scroll
-          // $("html, body").animate(
-          //   {
-          //     scrollTop: $(".depa_detalle_container").offset().top,
-          //     easing: "ease-out",
-          //   },
-          //   500
-          // )
         })
         .removeAttr("id")
         .insertBefore(plantilla)
@@ -309,8 +323,16 @@ function inicializarSlide() {
     })
   }
 
-  construirSlide(null)
-  ejecutarSlide()
+  if (debug) {
+    construirSlide(null)
+    ejecutarSlide()
+  } else
+    OPERACIONES.getSkus()
+      .then(respuesta => {
+        construirSlide(respuesta)
+        ejecutarSlide()
+      })
+      .catch(_ => console.error(_))
 }
 
 /**
@@ -356,3 +378,26 @@ else
     rpc = require("web.rpc")
     document_ready()
   })
+
+// odoo.define("website.user_custom_code", function (require) {
+//   ;("use strict")
+
+//   require("web.dom_ready")
+//   rpc = require("web.rpc")
+//   const model = "product.template"
+//   const method = "search_read"
+//   // Use an empty array to search for all the records
+//   const domain = []
+//   // Use an empty array to read all the fields of the records
+//   const fields = [] //accessoADatos.map(x => x.campo)
+//   const options = {
+//     model,
+//     method,
+//     args: [domain, fields],
+//   }
+
+//   rpc
+//     .query(options)
+//     .then(products => console.log(products))
+//     .catch(err => console.error(err))
+// })
