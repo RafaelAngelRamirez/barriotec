@@ -1,12 +1,13 @@
 {
   "name": "odoo",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-local": "nodemon",
-    "release": "standard-version"
+    "release": "standard-version",
+    "postversion": "versionar_scrpt"
   },
   "author": "",
   "license": "ISC",
