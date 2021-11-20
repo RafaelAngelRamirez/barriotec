@@ -10,19 +10,33 @@
  */
 let rpc = null
 
+
 /**
  * Para pruebas en dev
  */
 let debug =
-  location.hostname === "localhost" || location.hostname === "127.0.0.1"
+location.hostname === "localhost" || location.hostname === "127.0.0.1"
 
+
+
+/**
+ * La categoria (Departamento, Estudio) es dínamico en función
+ * del pathname
+ */
+let categoriaId = undefined
+/**
+ * La sección (Departamento, Estudio) es dínamico en función
+ * del pathname. Sirve para generar los contenidos diferenciados. 
+ */
 let seccion = null
 switch (location.pathname) {
   case "/depas":
     seccion = 0
+    categoriaId = 4
     break
   case "/estudios":
     seccion = 1
+    categoriaId = 5
     break
 
   default:
@@ -34,7 +48,11 @@ const OPT = {
   /** Los campos que se quieren traer */
   fields: [],
   /** Filtros de busqueda */
-  domain: [["is_booking_type", "=", true]],
+  domain: [
+    ["is_booking_type", "=", true],
+    //La categoria se toma dinamicamente del pathname
+    ["categ_id", "=", categoriaId],
+  ],
 }
 
 /**
