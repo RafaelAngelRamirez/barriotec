@@ -134,3 +134,63 @@ th {
   background-image: url("https://img.freepik.com/foto-gratis/fondo-textura-pared-ladrillo-blanco-moderno_35257-348.jpg?size=626&ext=jpg");
   background-repeat: repeat;
 }
+
+/*--------------------- PAQUETES --------------------- */
+
+
+.paquete_contenedor .card, .paquete_gold_contenedor .card {
+
+  border-radius: 0;
+
+}
+
+.paquete_contenedor {
+  background-color: #f5f6f7;
+}
+
+.paquete_gold_contenedor {
+  background-color: #c9c9cb;
+}
+
+.paquete_gold_sub {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.marcador_paquete {
+  background-color: black;
+  width: 150px;
+  height: 30px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: -16px;
+  z-index: 100;
+}
+
+
+.close {
+  /* position: absolute; */
+  right: -15px;
+  /* top: 32px; */
+  /* width: 32px; */
+  height: 10px;
+}
+
+.close:before, .close:after {
+  position: absolute;
+  /* left: 15px; */
+  content: ' ';
+  height: 20px;
+  width: 2px;
+  background-color: #333;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}
