@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](///compare/v1.2.13...v1.3.0) (2021-11-20)
+
+
+### Features
+
+* Estructura de paquetes agregada 6ef077b
+
+
+### Bug Fixes
+
+* Espacio sobrante ca07b61
+* Espacios entre elementos 939cc0b
+
 ### [1.2.13](///compare/v1.2.12...v1.2.13) (2021-11-19)
 
 
