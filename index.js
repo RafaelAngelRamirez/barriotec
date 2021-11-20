@@ -13,14 +13,20 @@ app.set("port", 5000)
 app.use(express.static(__dirname + "/"))
 var publicDir = path.join(__dirname, "/")
 
-app.get("/", function (req, res) {
+
+const callback = function (req, res) {
   let index = child.execSync("cat src/index.html").toString("UTF-8")
   let contenido = child.execSync("cat src/contenido.html").toString("UTF-8")
 
   index = index.replace("{{REMPLAZAR_AQUI}}", contenido)
 
   res.send(index)
-})
+}
+
+
+app.get("/",callback)
+app.get("/depas",callback)
+app.get("/estudios",callback)
 
 // app.get("/*", (req, res) =>
 //   res.sendFile(path.join(__dirname + "/dist/index.html"))

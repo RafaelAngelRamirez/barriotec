@@ -1,6 +1,6 @@
-/** 
+/**
  * version:  1.3.1 - Sat Nov 20 10:34:20 2021
-*/
+ */
 
 //------------------------------
 // GLOBALES
@@ -16,12 +16,53 @@ let rpc = null
 let debug =
   location.hostname === "localhost" || location.hostname === "127.0.0.1"
 
+let seccion = null
+switch (location.pathname) {
+  case "/depas":
+    seccion = 0
+    break
+  case "/estudios":
+    seccion = 1
+    break
+
+  default:
+    throw "Seccion invalida " + location.pathname
+    break
+}
+
 const OPT = {
   /** Los campos que se quieren traer */
   fields: [],
   /** Filtros de busqueda */
   domain: [["is_booking_type", "=", true]],
 }
+
+/**
+ * las configuraciones de texto.
+ * Deben respetar el orden. 0=depas, 1=estudios
+ */
+const CONFIGURACIONES = [
+  {
+    tipo: "string",
+    match: "#tabla_titulo",
+    textos: ["DEPAS", "ESTUDIOS"],
+  },
+  {
+    tipo: "string",
+    match: "#slide_titulo",
+    textos: ["DEPAS", "ESTUDIOS"],
+  },
+  {
+    tipo: "string",
+    match: "#paquetes_titulo",
+    textos: ["depa", "estudio"].map(x => "Elige tu " + x),
+  },
+].map(x => ({
+  ...x,
+  get texto() {
+    return this.textos[seccion]
+  },
+}))
 
 const OPERACIONES = {
   getSkus: (opciones = OPT) => {
@@ -221,7 +262,7 @@ function inicializarSlide() {
    * @param {*} datosDebug
    */
   function construirSlide(dataCruda) {
-    console.log({debug, dataCruda  })
+    console.log({ debug, dataCruda })
 
     let datos = dataCruda?.map(x => {
       return {
@@ -367,6 +408,10 @@ function document_ready() {
   $(document).ready(() => {
     generarTabla()
     scriptsEInicializacion()
+
+    CONFIGURACIONES.filter(x => (x.tipo = "string")).forEach(x => {
+      $(x.match).text(x.texto)
+    })
   })
 }
 
