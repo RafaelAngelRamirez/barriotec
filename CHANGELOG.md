@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.8](///compare/v1.3.7...v1.3.8) (2021-11-21)
+
+
+### Bug Fixes
+
+* Detalle de paquete lleva a shop general de producto e13e2ff
+* Limpieza de logs 149db14
+
 ### [1.3.7](///compare/v1.3.6...v1.3.7) (2021-11-21)
 
 ### [1.3.6](///compare/v1.3.5...v1.3.6) (2021-11-21)
