@@ -339,7 +339,7 @@ function inicializarSlide() {
           area_balcon: "999",
           cuartos: "999",
           plano: `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran(),
-          paquete: [
+          paquetes: [
             {
               id: 3,
               product_id: [6, "Depa 201"],
@@ -419,12 +419,12 @@ function inicializarSlide() {
     let contador = 0
     paquetesCard.forEach(paq => {
       paquete = dato.paquetes.find(p => p.plan_id[1] === paq)
-      console.log("paquete selecciondo, ", paquete)
 
       const cardHTML = $("#" + ids[contador])
-      cardHTML.find(".paquete_nombre").innerText(paquete.plan_id[1])
-      cardHTML.find(".paquete_precio").innerText(paquete.price)
-      cardHTML.find(".paquete_precio").click(() => {
+      console.log(cardHTML.find(".paquete_nombre"))
+      cardHTML.find(".paquete_nombre").text(paquete.plan_id[1])
+      cardHTML.find(".paquete_precio").text(paquete.price)
+      cardHTML.find(".paquete_accion").click(() => {
         alert("no definido")
       })
 
