@@ -369,7 +369,7 @@ function inicializarSlide() {
    */
   function paqueteConstruir(dato) {
     //Si hay paquetes cargamos el contenedor.
-    const hayPaquetes = datos?.paquetes?.length > 0
+    const hayPaquetes = dato?.paquetes?.length > 0
     if (!hayPaquetes) return
 
     $("#paquete_section").css("display", "unset")
