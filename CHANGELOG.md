@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.4](///compare/v1.3.3...v1.3.4) (2021-11-21)
+
+
+### Bug Fixes
+
+* Basic deberia decir ALL IN 7405502
+* Carga de datos en paquetes. Dinamica de estudio funcionando 708230c
+
 ### [1.3.3](///compare/v1.3.2...v1.3.3) (2021-11-20)
 
 
