@@ -410,7 +410,7 @@ function inicializarSlide() {
     const hayPaquetes = dato?.paquetes?.length > 0
     if (!hayPaquetes) return
 
-    $("#paquete_section").css("display", "unset")
+    $("#paquete_section").css("display", "block")
 
     //Los id de los 3 elementos html para mostrar los paquetes.
     const ids = ["paquete_basic", "paquete_gold", "paquete_all_inn"]
@@ -419,14 +419,18 @@ function inicializarSlide() {
     let contador = 0
     paquetesCard.forEach(paq => {
       paquete = dato.paquetes.find(p => p.plan_id[1] === paq)
-
       const cardHTML = $("#" + ids[contador])
-      console.log(cardHTML.find(".paquete_nombre"))
-      cardHTML.find(".paquete_nombre").text(paquete.plan_id[1])
-      cardHTML.find(".paquete_precio").text(paquete.price)
-      cardHTML.find(".paquete_accion").click(() => {
-        alert("no definido")
-      })
+
+      if (paquete) {
+        console.log(cardHTML.find(".paquete_nombre"))
+        cardHTML.find(".paquete_nombre").text(paquete.plan_id[1])
+        cardHTML.find(".paquete_precio").text(paquete.price)
+        cardHTML.find(".paquete_accion").click(() => {
+          alert("no definido")
+        })
+      }
+      //Ocultamos el paquete si no esta definido
+      else cardHTML.css("display", "none")
 
       contador++
     })
