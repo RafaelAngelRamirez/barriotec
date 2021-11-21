@@ -423,7 +423,6 @@ function inicializarSlide() {
       const cardHTML = $("#" + ids[contador])
 
       if (paquete) {
-        console.log(cardHTML.find(".paquete_nombre"))
         cardHTML.find(".paquete_nombre").text(paquete.plan_id[1])
         cardHTML.find(".paquete_precio").text(paquete.price)
         cardHTML.find(".paquete_accion").click(() => {
@@ -504,8 +503,6 @@ function inicializarSlide() {
             sku?.booking_plan_ids?.includes(plan.id)
           ),
         }))
-
-        console.log("skus", skus)
 
         construirSlide(skus)
         ejecutarSlide()
