@@ -303,6 +303,7 @@ function inicializarSlide() {
    * @param {*} datosDebug
    */
   function construirSlide(dataCruda) {
+    console.log({ dataCruda })
     let datos = dataCruda?.map(x => {
       return {
         nombre: x.name,
@@ -317,6 +318,7 @@ function inicializarSlide() {
         plano: x.extra_image_data_uri,
         planes: x.planes,
         paquetes: x.paquetes,
+        website_url: x.website_url,
       }
     })
 
@@ -425,9 +427,9 @@ function inicializarSlide() {
       if (paquete) {
         cardHTML.find(".paquete_nombre").text(paquete.plan_id[1])
         cardHTML.find(".paquete_precio").text(paquete.price)
-        cardHTML.find(".paquete_accion").click(() => {
-          alert("no definido")
-        })
+        cardHTML
+          .find(".paquete_accion")
+          .click(() => (window.location.href = dato.website_url))
       }
       //Ocultamos el paquete si no esta definido
       else cardHTML.css("display", "none")
