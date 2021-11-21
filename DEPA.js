@@ -10,14 +10,17 @@
  */
 let rpc = null
 
-
 /**
  * Para pruebas en dev
  */
 let debug =
-location.hostname === "localhost" || location.hostname === "127.0.0.1"
+  location.hostname === "localhost" || location.hostname === "127.0.0.1"
 
+const categoriaIdDepartamento = 4
+const categoriaIdEstudio = 5
 
+//Debe ser el nombre del paquete literal
+const paquetesCard = ["BASIC", "GOLD", "ALL IN"]
 
 /**
  * La categoria (Departamento, Estudio) es dínamico en función
@@ -26,33 +29,22 @@ location.hostname === "localhost" || location.hostname === "127.0.0.1"
 let categoriaId = undefined
 /**
  * La sección (Departamento, Estudio) es dínamico en función
- * del pathname. Sirve para generar los contenidos diferenciados. 
+ * del pathname. Sirve para generar los contenidos diferenciados.
  */
 let seccion = null
 switch (location.pathname) {
   case "/depas":
     seccion = 0
-    categoriaId = 4
+    categoriaId = categoriaIdDepartamento
     break
   case "/estudios":
     seccion = 1
-    categoriaId = 5
+    categoriaId = categoriaIdEstudio
     break
 
   default:
     throw "Seccion invalida " + location.pathname
     break
-}
-
-const OPT = {
-  /** Los campos que se quieren traer */
-  fields: [],
-  /** Filtros de busqueda */
-  domain: [
-    ["is_booking_type", "=", true],
-    //La categoria se toma dinamicamente del pathname
-    ["categ_id", "=", categoriaId],
-  ],
 }
 
 /**
@@ -82,9 +74,25 @@ const CONFIGURACIONES = [
   },
 }))
 
+/**
+ *
+ * Consulta a la BD.
+ * @param opciones = { domain: [], fields: [] id: string}
+ *
+ *
+ */
 const OPERACIONES = {
-  getSkus: (opciones = OPT) => {
-    opciones = { ...OPT, ...opciones }
+  getSkus: opciones => {
+    opciones = {
+      ...{
+        domain: [
+          ["is_booking_type", "=", true],
+          //La categoria se toma dinamicamente del pathname
+          ["categ_id", "=", categoriaId],
+        ],
+      },
+      ...opciones,
+    }
     const model = "product.template"
     const method = "search_read"
     const options = {
@@ -93,6 +101,21 @@ const OPERACIONES = {
       args: [opciones.domain, opciones.fields],
     }
 
+    return rpc.query(options)
+  },
+
+  getPlans: opciones => {
+    opciones = {
+      ...{ domain: [["id", "=", opciones.id]] },
+      ...opciones,
+    }
+    const model = "pgmx.booking.product.plans"
+    const method = "search_read"
+    const options = {
+      model,
+      method,
+      args: [opciones.domain, opciones.fields],
+    }
     return rpc.query(options)
   },
 }
@@ -215,7 +238,7 @@ function generarTabla() {
 
         generarDatos(datos)
       })
-      .catch(_ => next(_))
+      .catch(_ => console.log(_))
 }
 
 //------------------------------
@@ -234,7 +257,7 @@ function inicializarSlide() {
    *
    * @param {*} datos
    */
-  function mostrarDetalleDepa(datos) {
+  async function mostrarDetalleDepa(datos) {
     $("#depa_detalle_nombre").text(datos.nombre)
     $("#depa_detalle_descripcion").text(datos.descripcion)
     $("#depa_detalle_img").attr("src", datos.src[0])
@@ -280,8 +303,6 @@ function inicializarSlide() {
    * @param {*} datosDebug
    */
   function construirSlide(dataCruda) {
-    console.log({ debug, dataCruda })
-
     let datos = dataCruda?.map(x => {
       return {
         nombre: x.name,
@@ -294,6 +315,7 @@ function inicializarSlide() {
         area_balcon: x.booking_lookout_area,
         cuartos: x.booking_rom_num,
         plano: x.extra_image_data_uri,
+        planes: x.planes,
       }
     })
 
@@ -309,9 +331,9 @@ function inicializarSlide() {
             ),
           nombre: "DEPA" + contador++,
           descripcion: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Exercitationem alias, sunt velit eligendi mollitia libero
-                laudantium a quos. Tempora quam repellat adipisci quis iure
-                doloribus facilis deleniti architecto quas repellendus!`,
+                  Exercitationem alias, sunt velit eligendi mollitia libero
+                  laudantium a quos. Tempora quam repellat adipisci quis iure
+                  doloribus facilis deleniti architecto quas repellendus!`,
           precio: "99999.99",
           area_depa: "999",
           area_balcon: "999",
@@ -329,6 +351,7 @@ function inicializarSlide() {
         .click(() => {
           $(".depa_detalle_container").removeClass("show").addClass("collapse")
           mostrarDetalleDepa(dato)
+          paqueteConstruir(dato)
         })
         .removeAttr("id")
         .insertBefore(plantilla)
@@ -337,6 +360,38 @@ function inicializarSlide() {
     })
 
     plantilla.remove()
+  }
+
+  /**
+   *Construye y popula los datos de paquetes si existen
+   *
+   * @param {*} dato
+   */
+  function paqueteConstruir(dato) {
+    //Si hay paquetes cargamos el contenedor.
+    const hayPaquetes = datos?.paquetes?.length > 0
+    if (!hayPaquetes) return
+
+    $("#paquete_section").css("display", "unset")
+
+    //Los id de los 3 elementos html para mostrar los paquetes.
+    const ids = ["paquete_basic", "paquete_gold", "paquete_all_inn"]
+
+    // TRES PAQUETES  - SE RESPESTA EL ORDEN [0,1,2] SEGUN POSICION HTML
+    let contador = 0
+    paquetesCard.forEach(paq => {
+      paquete = dato.paquetes.find(p => p.plan_id[1] === paq)
+      console.log("paquete selecciondo, ", paquete)
+
+      const cardHTML = $("#" + ids[contador])
+      cardHTML.find(".paquete_nombre").innerText(paquete.plan_id[1])
+      cardHTML.find(".paquete_precio").innerText(paquete.price)
+      cardHTML.find(".paquete_precio").click(() => {
+        alert("no definido")
+      })
+
+      contador++
+    })
   }
 
   /**
@@ -387,13 +442,29 @@ function inicializarSlide() {
     })
   }
 
+  // CARGA DE DATOS
+
   if (debug) {
     construirSlide(null)
     ejecutarSlide()
   } else
     OPERACIONES.getSkus()
-      .then(respuesta => {
-        construirSlide(respuesta)
+      .then(async skus => {
+        let ids = skus
+          .map(x => x.booking_plan_ids)
+          .reduce((acumulator, current) => [...acumulator, ...current], [])
+
+        let paquetes = await OPERACIONES.getPlans({ id: ids })
+        skus = skus.map(sku => ({
+          ...sku,
+          paquetes: paquetes.filter(plan =>
+            sku?.booking_plan_ids?.includes(plan.id)
+          ),
+        }))
+
+        console.log("skus", skus)
+
+        construirSlide(skus)
         ejecutarSlide()
       })
       .catch(_ => console.error(_))
@@ -427,6 +498,7 @@ function document_ready() {
     generarTabla()
     scriptsEInicializacion()
 
+    //Textos generales
     CONFIGURACIONES.filter(x => (x.tipo = "string")).forEach(x => {
       $(x.match).text(x.texto)
     })
@@ -446,26 +518,3 @@ else
     rpc = require("web.rpc")
     document_ready()
   })
-
-// odoo.define("website.user_custom_code", function (require) {
-//   ;("use strict")
-
-//   require("web.dom_ready")
-//   rpc = require("web.rpc")
-//   const model = "product.template"
-//   const method = "search_read"
-//   // Use an empty array to search for all the records
-//   const domain = []
-//   // Use an empty array to read all the fields of the records
-//   const fields = [] //accessoADatos.map(x => x.campo)
-//   const options = {
-//     model,
-//     method,
-//     args: [domain, fields],
-//   }
-
-//   rpc
-//     .query(options)
-//     .then(products => console.log(products))
-//     .catch(err => console.error(err))
-// })
