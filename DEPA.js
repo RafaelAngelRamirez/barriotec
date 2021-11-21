@@ -43,7 +43,7 @@ switch (location.pathname) {
     break
 
   default:
-    throw "Seccion invalida " + location.pathname
+    // throw "Seccion invalida " + location.pathname
     break
 }
 
