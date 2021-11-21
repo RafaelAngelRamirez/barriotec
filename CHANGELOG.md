@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.9](///compare/v1.3.8...v1.3.9) (2021-11-21)
+
+
+### Bug Fixes
+
+* Sección invalida al cambiar de shop no se debe mostrar 5f1f1e2
+
 ### [1.3.8](///compare/v1.3.7...v1.3.8) (2021-11-21)
 
 
