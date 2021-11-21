@@ -316,6 +316,7 @@ function inicializarSlide() {
         cuartos: x.booking_rom_num,
         plano: x.extra_image_data_uri,
         planes: x.planes,
+        paquetes: x.paquetes,
       }
     })
 
