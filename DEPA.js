@@ -81,7 +81,7 @@ const CONFIGURACIONES = [
  *
  *
  */
-const OPERACIONES = {
+const SERVICE = {
   getSkus: opciones => {
     opciones = {
       ...{
@@ -117,6 +117,35 @@ const OPERACIONES = {
       args: [opciones.domain, opciones.fields],
     }
     return rpc.query(options)
+  },
+
+  getBookingModal: opciones => {
+    
+
+    // return new Promise((resolve, reject) => {
+    //   let data = {
+    //     jsonrpc: "2.0",
+    //     method: "call",
+    //     params: { product_id: 36 },
+    //     id: 956755385,
+    //   }
+
+    //   $.ajax({
+    //     type: "POST",
+    //     url: "booking/reservation/modal",
+    //     data: JSON.stringify(data),
+    //     contentType: "application/json",
+    //     success: function (response) {
+    //       resolve(response)
+
+    //       $("body").append(response.result)
+    //       $(".modal").modal("show")
+    //     },
+    //     xhrFields: {
+    //       withCredentials: true,
+    //     },
+    //   })
+    // })
   },
 }
 
@@ -219,7 +248,7 @@ function generarTabla() {
     ]
     generarDatos(dummyData)
   } else
-    OPERACIONES.getSkus()
+    SERVICE.getSkus()
       .then(products => {
         let datos = products.map(product => {
           return accessoADatos.map(accD => {
@@ -492,13 +521,13 @@ function inicializarSlide() {
     construirSlide(null)
     ejecutarSlide()
   } else
-    OPERACIONES.getSkus()
+    SERVICE.getSkus()
       .then(async skus => {
         let ids = skus
           .map(x => x.booking_plan_ids)
           .reduce((acumulator, current) => [...acumulator, ...current], [])
 
-        let paquetes = await OPERACIONES.getPlans({ id: ids })
+        let paquetes = await SERVICE.getPlans({ id: ids })
         skus = skus.map(sku => ({
           ...sku,
           paquetes: paquetes.filter(plan =>
