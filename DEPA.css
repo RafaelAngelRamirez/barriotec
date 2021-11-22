@@ -2,11 +2,16 @@
  * version:  1.3.9 - Sun Nov 21 13:38:12 2021
 */
 
+.pointer {
+  cursor: pointer;
+}
+
 /*--------------------- TABLA --------------------- */
 tr,
 td,
 th {
   color: white;
+  cursor: pointer;
 }
 
 .tabla_depa_disponibilidad > tbody > tr > td,
@@ -15,10 +20,7 @@ th {
 .tabla_depa_disponibilidad > tfoot > tr > th,
 .tabla_depa_disponibilidad > thead > tr > td,
 .tabla_depa_disponibilidad > thead > tr > th {
-  padding: 2px;
-}
-.tabla_depa_disponibilidad > tbody > tr.espacio > td {
-  padding: 5px;
+  padding: 10px;
 }
 
 #depa_disponibilidad {
@@ -27,11 +29,6 @@ th {
   padding-right: 50px;
   padding-left: 50px;
   background-color: rgba(0, 0, 255, 0.5);
-}
-
-.table-hover tbody tr.espacio:hover td,
-.table-hover tbody tr.espacio:hover th {
-  background-color: unset;
 }
 
 /*--------------------- CARRUSEL --------------------- */

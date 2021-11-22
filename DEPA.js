@@ -178,6 +178,14 @@ const accessoADatos = [
     campo: "is_booking_type",
     transformacion: booleano => (booleano ? "Disponible" : "No disponible"),
   },
+
+  //Debe ser el ultimo en el arreglo de datos para asignarlo como
+  // evento en la tabla. Usamos pop para obtenerlo.
+  {
+    encabezado: "web_site",
+    campo: "website_url",
+    transformacion: null,
+  },
 ]
 
 /**
@@ -196,6 +204,8 @@ function generarEncabezado(encabezados) {
   if (!headerTemplate) return false
   let trHead = headerTemplate.parentElement
 
+  //Eliminamos el ultimo encabezado que es la url
+  encabezados.pop()
   encabezados.forEach(x => {
     let header = headerTemplate.cloneNode()
     header.innerHTML = x
@@ -217,20 +227,22 @@ function generarDatos(datos) {
 
   datos.forEach(conjuntoDeDatos => {
     let tr = trTemplate.cloneNode()
-    let trEspacio = trEspacioTemplate.cloneNode()
+    // let trEspacio = trEspacioTemplate.cloneNode()
+    let url = conjuntoDeDatos.pop()
 
-    conjuntoDeDatos.forEach(x => {
+    conjuntoDeDatos.forEach(datoColumna => {
       let td = document.createElement("td")
       let tdEspacio = document.createElement("td")
-      td.innerText = x
+      td.innerText = datoColumna
       tr.appendChild(td)
-      trEspacio.appendChild(tdEspacio)
+      // trEspacio.appendChild(tdEspacio)
     })
     // Evento para booking
-    $(tr).click(() => {})
+    tr.classList.add("pointer")
+    tr.addEventListener("click", () => (window.location.href = url))
 
     tbody.appendChild(tr)
-    tbody.appendChild(trEspacio)
+    // tbody.appendChild(trEspacio)
   })
 }
 
@@ -241,9 +253,36 @@ function generarTabla() {
   if (debug) {
     console.error("[ WARNING ] Estas en modo debug!")
     const dummyData = [
-      ["DEPA 301", "Departamento", "3", "1", "23", "2", "Disponible"],
-      ["Depa 101", "Departamento", "2", "1", "80", "N/A", "Disponible"],
-      ["Depa 201", "Departamento", "2", "2", "100", "6", "Disponible"],
+      [
+        "DEPA 301",
+        "Departamento",
+        "3",
+        "1",
+        "23",
+        "2",
+        "Disponible",
+        "/DEPA 301",
+      ],
+      [
+        "Depa 101",
+        "Departamento",
+        "2",
+        "1",
+        "80",
+        "N/A",
+        "Disponible",
+        "/Depa 101",
+      ],
+      [
+        "Depa 201",
+        "Departamento",
+        "2",
+        "2",
+        "100",
+        "6",
+        "Disponible",
+        "/Depa 201",
+      ],
     ]
     generarDatos(dummyData)
   } else
