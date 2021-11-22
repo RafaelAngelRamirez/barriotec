@@ -120,8 +120,6 @@ const SERVICE = {
   },
 
   getBookingModal: opciones => {
-    
-
     // return new Promise((resolve, reject) => {
     //   let data = {
     //     jsonrpc: "2.0",
@@ -129,7 +127,6 @@ const SERVICE = {
     //     params: { product_id: 36 },
     //     id: 956755385,
     //   }
-
     //   $.ajax({
     //     type: "POST",
     //     url: "booking/reservation/modal",
@@ -137,7 +134,6 @@ const SERVICE = {
     //     contentType: "application/json",
     //     success: function (response) {
     //       resolve(response)
-
     //       $("body").append(response.result)
     //       $(".modal").modal("show")
     //     },
@@ -230,6 +226,9 @@ function generarDatos(datos) {
       tr.appendChild(td)
       trEspacio.appendChild(tdEspacio)
     })
+    // Evento para booking
+    $(tr).click(() => {})
+
     tbody.appendChild(tr)
     tbody.appendChild(trEspacio)
   })
@@ -419,9 +418,9 @@ function inicializarSlide() {
       $nombre = $nuevo.find(refs.carrusel_nombre).text(dato.nombre)
       $nuevo
         .click(() => {
-          $(".depa_detalle_container").removeClass("show").addClass("collapse")
           mostrarDetalleDepa(dato)
           paqueteConstruir(dato)
+          $(".depa_detalle_container").collapse("show")
         })
         .removeAttr("id")
         .insertBefore(plantilla)
