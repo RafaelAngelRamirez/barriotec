@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](///compare/v1.3.9...v1.4.0) (2021-11-22)
+
+
+### Features
+
+* Click en tabla manda a booking e7cf18c
+
+
+### Bug Fixes
+
+* Collapsable 2af3150
+
 ### [1.3.9](///compare/v1.3.8...v1.3.9) (2021-11-21)
 
 
