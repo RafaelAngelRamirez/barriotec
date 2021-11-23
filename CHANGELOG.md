@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.6](///compare/v1.4.5...v1.4.6) (2021-11-23)
+
+
+### Bug Fixes
+
+* Campos faltantes y sobrantes movidos ede4409
+
 ### [1.4.5](///compare/v1.4.4...v1.4.5) (2021-11-23)
 
 
