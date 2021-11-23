@@ -462,10 +462,12 @@ function inicializarSlide() {
 
       if (paquete) {
         cardHTML.find(".paquete_nombre").text(paquete.plan_id[1])
+        console.log(dato.website_url)
         cardHTML.find(".paquete_precio").text(paquete.price)
-        cardHTML
-          .find(".paquete_accion")
-          .click(() => (window.location.href = dato.website_url))
+
+        $(".paquete_accion").click(
+          () => (window.location.href = dato.website_url)
+        )
       }
       //Ocultamos el paquete si no esta definido
       else cardHTML.css("display", "none")
@@ -572,6 +574,7 @@ function generarDataDePruebas() {
   let contador = 0
   const ran = () => Math.round(Math.random() * 4) + 4
   let dataDePrueba = new Array(10).fill(null).map(x => {
+    contador++
     return {
       src: new Array(5)
         .fill(null)
@@ -587,7 +590,7 @@ function generarDataDePruebas() {
             ></iframe
             >`,
       ],
-      nombre: "DEPA" + contador++,
+      nombre: "DEPA" + contador,
       descripcion: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Exercitationem alias, sunt velit eligendi mollitia libero
                   laudantium a quos. Tempora quam repellat adipisci quis iure
@@ -635,6 +638,7 @@ function generarDataDePruebas() {
           __last_update: "2021-09-27 21:20:31",
         },
       ],
+      website_url: "algunaURL_" + contador,
     }
   })
   return dataDePrueba
