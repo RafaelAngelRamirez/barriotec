@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.5](///compare/v1.4.4...v1.4.5) (2021-11-23)
+
+
+### Bug Fixes
+
+* Solo se cargan los campos e imagenes necesarios 212d22e
+* UX - Precarga arreglada e02a462
+
 ### [1.4.4](///compare/v1.4.3...v1.4.4) (2021-11-23)
 
 
