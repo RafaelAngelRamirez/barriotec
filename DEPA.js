@@ -376,7 +376,7 @@ function inicializarSlide() {
     template.remove()
 
     $("#depa_detalle_galeria").slick({
-      fade: true,
+      fade: false,
       autoplay: true,
       dots: true,
       pauseOnHover: true,
@@ -403,8 +403,11 @@ function inicializarSlide() {
         return {
           nombre: x.name,
           //Este debe ser un arreglo de imagenes
-          src: [x.imagenes].map(i => `data:image/png;base64, ${i}`),
-          videos: x.videos,
+          src: [x.image_1024, ...x.imagenes]
+            .filter(image => image)
+            .map(i => `data:image/png;base64, ${i}`),
+          //Puede haber videos que no esten puestos.
+          videos: x.videos.filter(vid => vid),
           descripcion: x.description ?? "",
           // Este es un array
           precio: `${x.cost_currency_id.pop()} ${x.cost_currency_id.pop()}`,
