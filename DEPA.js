@@ -118,6 +118,20 @@ const SERVICE = {
     }
     return rpc.query(options)
   },
+  getImages: opciones => {
+    opciones = {
+      ...{ domain: [["id", "=", opciones.id]] },
+      ...opciones,
+    }
+    const model = "product.image"
+    const method = "search_read"
+    const options = {
+      model,
+      method,
+      args: [opciones.domain, opciones.fields],
+    }
+    return rpc.query(options)
+  },
 
   getBookingModal: opciones => {
     // return new Promise((resolve, reject) => {
@@ -339,7 +353,7 @@ function inicializarSlide() {
       $("#depa_detalle_galeria").slick("unslick")
     } catch (error) {}
 
-    $(".depa_detalle_container").removeClass("collapse").addClass("show")
+    $(".depa_detalle_container").collapse("show")
 
     let padreT = $("#depa_detalle_template")
     let template = $("#depa_detalle_template:first-child").clone()
@@ -351,12 +365,22 @@ function inicializarSlide() {
       nuevo.insertBefore(padreT)
     })
 
+    datos.videos.forEach(video => {
+      let nuevo = template.clone()
+      let padre = nuevo.find("img").parent()
+      padre.append(video)
+      nuevo.find("img").remove()
+      nuevo.insertBefore(padreT)
+    })
+
     template.remove()
 
     $("#depa_detalle_galeria").slick({
       fade: true,
       autoplay: true,
       dots: true,
+      pauseOnHover: true,
+      pauseOnFocus: true,
     })
 
     // PLANO
@@ -370,86 +394,31 @@ function inicializarSlide() {
    * @param {*} datosDebug
    */
   function construirSlide(dataCruda) {
-    console.log({ dataCruda })
-    let datos = dataCruda?.map(x => {
-      return {
-        nombre: x.name,
-        //Este debe ser un arreglo de imagenes
-        src: [x.image_1024].map(i => `data:image/png;base64, ${i}`),
-        descripcion: x.description ?? "",
-        // Este es un array
-        precio: `${x.cost_currency_id.pop()} ${x.cost_currency_id.pop()}`,
-        area_depa: x.booking_area,
-        area_balcon: x.booking_lookout_area,
-        cuartos: x.booking_rom_num,
-        plano: x.extra_image_data_uri,
-        planes: x.planes,
-        paquetes: x.paquetes,
-        website_url: x.website_url,
-      }
-    })
+    let datos = []
 
-    if (debug) {
-      let contador = 0
-      const ran = () => Math.round(Math.random() * 4) + 4
-      datos = new Array(10).fill(null).map(x => {
+    if (debug) datos = generarDataDePruebas()
+    // Transformamos los datos desde BD
+    else
+      datos = dataCruda?.map(x => {
         return {
-          src: new Array(5)
-            .fill(null)
-            .map(
-              x => `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran()
-            ),
-          nombre: "DEPA" + contador++,
-          descripcion: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Exercitationem alias, sunt velit eligendi mollitia libero
-                  laudantium a quos. Tempora quam repellat adipisci quis iure
-                  doloribus facilis deleniti architecto quas repellendus!`,
-          precio: "99999.99",
-          area_depa: "999",
-          area_balcon: "999",
-          cuartos: "999",
-          plano: `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran(),
-          paquetes: [
-            {
-              id: 3,
-              product_id: [6, "Depa 201"],
-              plan_id: [1, "BASIC"],
-              price: 200,
-              display_name: "pgmx.booking.product.plans,3",
-              create_uid: [2, "Mitchell Admin"],
-              create_date: "2021-09-27 21:20:31",
-              write_uid: [2, "Mitchell Admin"],
-              write_date: "2021-09-27 21:20:31",
-              __last_update: "2021-09-27 21:20:31",
-            },
-            {
-              id: 3,
-              product_id: [6, "Depa 201"],
-              plan_id: [1, "GOLD"],
-              price: 200,
-              display_name: "pgmx.booking.product.plans,3",
-              create_uid: [2, "Mitchell Admin"],
-              create_date: "2021-09-27 21:20:31",
-              write_uid: [2, "Mitchell Admin"],
-              write_date: "2021-09-27 21:20:31",
-              __last_update: "2021-09-27 21:20:31",
-            },
-            {
-              id: 4,
-              product_id: [6, "Depa 201"],
-              plan_id: [2, "ALL IN"],
-              price: 1000,
-              display_name: "pgmx.booking.product.plans,4",
-              create_uid: [2, "Mitchell Admin"],
-              create_date: "2021-09-27 21:20:31",
-              write_uid: [2, "Mitchell Admin"],
-              write_date: "2021-09-27 21:20:31",
-              __last_update: "2021-09-27 21:20:31",
-            },
-          ],
+          nombre: x.name,
+          //Este debe ser un arreglo de imagenes
+          src: [x.imagenes].map(i => `data:image/png;base64, ${i}`),
+          videos: x.videos,
+          descripcion: x.description ?? "",
+          // Este es un array
+          precio: `${x.cost_currency_id.pop()} ${x.cost_currency_id.pop()}`,
+          area_depa: x.booking_area,
+          area_balcon: x.booking_lookout_area,
+          cuartos: x.booking_rom_num,
+          plano: x.extra_image_data_uri,
+          planes: x.planes,
+          paquetes: x.paquetes,
+          website_url: x.website_url,
         }
       })
-    }
+
+    console.log({ dataCruda, datos })
 
     let plantilla = $(refs.carrusel_plantilla)
     datos.forEach(dato => {
@@ -573,10 +542,102 @@ function inicializarSlide() {
           ),
         }))
 
+        //product_template_image_ids []
+
+        let contenedorMedia = await SERVICE.getImages({
+          id: skus.map(sku => sku.product_template_image_ids),
+        })
+
+        const filtroMedia = sku => {
+          return media => sku?.product_template_image_ids.includes(media.id)
+        }
+
+        skus = skus.map(sku => ({
+          ...sku,
+          imagenes: contenedorMedia
+            .filter(filtroMedia(sku))
+            .map(media => media.image_1024),
+          videos: contenedorMedia
+            .filter(filtroMedia(sku))
+            .map(media => media.embed_code),
+        }))
+
         construirSlide(skus)
         ejecutarSlide()
       })
       .catch(_ => console.error(_))
+}
+
+function generarDataDePruebas() {
+  let contador = 0
+  const ran = () => Math.round(Math.random() * 4) + 4
+  let dataDePrueba = new Array(10).fill(null).map(x => {
+    return {
+      src: new Array(5)
+        .fill(null)
+        .map(
+          x => `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran()
+        ),
+      videos: [
+        `<iframe
+              class="embed-responsive-item"
+              src="//www.youtube.com/embed/Mw-voVnKtcA?rel=0"
+              allowfullscreen="true"
+              frameborder="0"
+            ></iframe
+            >`,
+      ],
+      nombre: "DEPA" + contador++,
+      descripcion: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Exercitationem alias, sunt velit eligendi mollitia libero
+                  laudantium a quos. Tempora quam repellat adipisci quis iure
+                  doloribus facilis deleniti architecto quas repellendus!`,
+      precio: "99999.99",
+      area_depa: "999",
+      area_balcon: "999",
+      cuartos: "999",
+      plano: `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran(),
+      paquetes: [
+        {
+          id: 3,
+          product_id: [6, "Depa 201"],
+          plan_id: [1, "BASIC"],
+          price: 200,
+          display_name: "pgmx.booking.product.plans,3",
+          create_uid: [2, "Mitchell Admin"],
+          create_date: "2021-09-27 21:20:31",
+          write_uid: [2, "Mitchell Admin"],
+          write_date: "2021-09-27 21:20:31",
+          __last_update: "2021-09-27 21:20:31",
+        },
+        {
+          id: 3,
+          product_id: [6, "Depa 201"],
+          plan_id: [1, "GOLD"],
+          price: 200,
+          display_name: "pgmx.booking.product.plans,3",
+          create_uid: [2, "Mitchell Admin"],
+          create_date: "2021-09-27 21:20:31",
+          write_uid: [2, "Mitchell Admin"],
+          write_date: "2021-09-27 21:20:31",
+          __last_update: "2021-09-27 21:20:31",
+        },
+        {
+          id: 4,
+          product_id: [6, "Depa 201"],
+          plan_id: [2, "ALL IN"],
+          price: 1000,
+          display_name: "pgmx.booking.product.plans,4",
+          create_uid: [2, "Mitchell Admin"],
+          create_date: "2021-09-27 21:20:31",
+          write_uid: [2, "Mitchell Admin"],
+          write_date: "2021-09-27 21:20:31",
+          __last_update: "2021-09-27 21:20:31",
+        },
+      ],
+    }
+  })
+  return dataDePrueba
 }
 
 /**
