@@ -103,8 +103,6 @@ const SERVICE = {
         "booking_lookout_area",
         "booking_rom_num",
         "extra_image_data_uri",
-        "planes",
-        "paquetes",
         "website_url",
       ]),
       ...opciones,
@@ -123,7 +121,7 @@ const SERVICE = {
   getPlans: opciones => {
     opciones = {
       ...{ domain: [["id", "=", opciones.id]] },
-      fields: ["plan_id", "price"],
+      // fields: ["plan_id", "price"],
       ...opciones,
     }
     const model = "pgmx.booking.product.plans"
@@ -422,7 +420,7 @@ function inicializarSlide() {
     template.remove()
 
     $("#depa_detalle_galeria").slick({
-      fade: true,
+      fade: false,
       autoplay: true,
       dots: true,
       pauseOnHover: true,
