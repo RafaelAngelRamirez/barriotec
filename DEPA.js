@@ -547,7 +547,12 @@ function inicializarSlide() {
         //product_template_image_ids []
 
         let contenedorMedia = await SERVICE.getImages({
-          id: skus.map(sku => sku.product_template_image_ids),
+          id: skus
+            .map(sku => sku.product_template_image_ids)
+            .reduce((previus, current) => {
+              if (current.length) previus.push(...current)
+              return previus
+            }, []),
         })
 
         const filtroMedia = sku => {
