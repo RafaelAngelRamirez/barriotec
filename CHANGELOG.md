@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.3](///compare/v1.4.2...v1.4.3) (2021-11-23)
+
+
+### Bug Fixes
+
+* Eliminamos img y vid nulos. Galeria no se mostraba en odoo e9c0c2a
+* Error en petición a BD a86f7d6
+
 ### [1.4.2](///compare/v1.4.1...v1.4.2) (2021-11-23)
 
 
