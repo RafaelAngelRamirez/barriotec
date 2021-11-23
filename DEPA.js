@@ -91,6 +91,22 @@ const SERVICE = {
           ["categ_id", "=", categoriaId],
         ],
       },
+      fields: new Set([
+        ...accessoADatos.map(x => x.campo),
+        "booking_plan_ids",
+        "product_template_image_ids",
+        "image_1024",
+        "description",
+        "cost_currency_id",
+        "cost_currency_id",
+        "booking_area",
+        "booking_lookout_area",
+        "booking_rom_num",
+        "extra_image_data_uri",
+        "planes",
+        "paquetes",
+        "website_url",
+      ]),
       ...opciones,
     }
     const model = "product.template"
@@ -98,7 +114,7 @@ const SERVICE = {
     const options = {
       model,
       method,
-      args: [opciones.domain, opciones.fields],
+      args: [opciones.domain, Array.from(opciones.fields)],
     }
 
     return rpc.query(options)
@@ -107,6 +123,7 @@ const SERVICE = {
   getPlans: opciones => {
     opciones = {
       ...{ domain: [["id", "=", opciones.id]] },
+      fields: ["plan_id", "price"],
       ...opciones,
     }
     const model = "pgmx.booking.product.plans"
@@ -121,6 +138,7 @@ const SERVICE = {
   getImages: opciones => {
     opciones = {
       ...{ domain: [["id", "=", opciones.id]] },
+      fields: ["image_1024", "embed_code"],
       ...opciones,
     }
     const model = "product.image"
