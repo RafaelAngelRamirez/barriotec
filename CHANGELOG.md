@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.4](///compare/v1.4.3...v1.4.4) (2021-11-23)
+
+
+### Bug Fixes
+
+* Mejora de carga de imagenes de galeria 5f648a1
+
 ### [1.4.3](///compare/v1.4.2...v1.4.3) (2021-11-23)
 
 
