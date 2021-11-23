@@ -159,7 +159,8 @@ const SERVICE = {
   },
 }
 
-const base64 = i => `data:image/png;base64, ${i}`
+const base64 = i => (!debug ? `data:image/png;base64, ${i}` : i)
+const ran = () => Math.round(Math.random() * 4) + 4
 
 //------------------------------
 // TABLA
@@ -361,9 +362,22 @@ function inicializarSlide() {
     let template = $("#depa_detalle_template:first-child").clone()
     $("#depa_detalle_template").empty()
 
-    let contenedorMedia = await SERVICE.getImages({
-      id: datos.imagenes,
-    })
+    let contenedorMedia = new Array(5).fill(null).map(x => ({
+      image_1024: `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran(),
+      embed_code: `<iframe
+              class="embed-responsive-item"
+              src="//www.youtube.com/embed/Mw-voVnKtcA?rel=0"
+              allowfullscreen="true"
+              frameborder="0"
+            ></iframe
+            >`,
+    }))
+    if (!debug)
+      contenedorMedia = await SERVICE.getImages({
+        id: datos.imagenes,
+      })
+
+    $("#depa_detalle_template").find(".lds-ripple").remove()
 
     datos = {
       ...datos,
@@ -390,15 +404,16 @@ function inicializarSlide() {
     template.remove()
 
     $("#depa_detalle_galeria").slick({
-      fade: false,
+      fade: true,
       autoplay: true,
       dots: true,
       pauseOnHover: true,
       pauseOnFocus: true,
     })
-
+    $("#depa_detalle_galeria").find(".lds-ripple").remove()
     // PLANO
     $(".depa_detalle_plano_img").find("img").attr("src", datos.plano)
+    $(".depa_detalle_plano_img").find(".lds-ripple").remove()
   }
 
   /**
@@ -433,6 +448,7 @@ function inicializarSlide() {
       })
 
     let plantilla = $(refs.carrusel_plantilla)
+    plantilla.find(".lds-ripple").remove()
     datos.forEach(dato => {
       let $nuevo = plantilla.clone()
       $nombre = $nuevo.find(refs.carrusel_nombre).text(dato.nombre)
@@ -567,7 +583,6 @@ function inicializarSlide() {
 
 function generarDataDePruebas() {
   let contador = 0
-  const ran = () => Math.round(Math.random() * 4) + 4
   let dataDePrueba = new Array(10).fill(null).map(x => {
     contador++
     return {
