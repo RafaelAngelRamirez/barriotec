@@ -159,6 +159,8 @@ const SERVICE = {
   },
 }
 
+const base64 = i => `data:image/png;base64, ${i}`
+
 //------------------------------
 // TABLA
 //------------------------------
@@ -341,7 +343,7 @@ function inicializarSlide() {
   async function mostrarDetalleDepa(datos) {
     $("#depa_detalle_nombre").text(datos.nombre)
     $("#depa_detalle_descripcion").text(datos.descripcion)
-    $("#depa_detalle_img").attr("src", datos.src[0])
+    $("#depa_detalle_img").attr("src", datos.src.map(base64)[0])
     $("#depa_detalle_precio").text(datos.precio)
     $("#depa_detalle_area_depa").text(datos.area_depa)
     $("#depa_detalle_area_balcon").text(datos.area_balcon)
@@ -358,6 +360,18 @@ function inicializarSlide() {
     let padreT = $("#depa_detalle_template")
     let template = $("#depa_detalle_template:first-child").clone()
     $("#depa_detalle_template").empty()
+
+    let contenedorMedia = await SERVICE.getImages({
+      id: datos.imagenes,
+    })
+
+    datos = {
+      ...datos,
+      src: [...datos.src, ...contenedorMedia.map(media => media.image_1024)]
+        .filter(x => x)
+        .map(base64),
+      videos: contenedorMedia.map(media => media.embed_code).filter(x => x),
+    }
 
     datos.src.forEach(src => {
       let nuevo = template.clone()
@@ -403,11 +417,8 @@ function inicializarSlide() {
         return {
           nombre: x.name,
           //Este debe ser un arreglo de imagenes
-          src: [x.image_1024, ...x.imagenes]
-            .filter(image => image)
-            .map(i => `data:image/png;base64, ${i}`),
-          //Puede haber videos que no esten puestos.
-          videos: x.videos.filter(vid => vid),
+          src: [x.image_1024],
+          imagenes: x.imagenes,
           descripcion: x.description ?? "",
           // Este es un array
           precio: `${x.cost_currency_id.pop()} ${x.cost_currency_id.pop()}`,
@@ -420,8 +431,6 @@ function inicializarSlide() {
           website_url: x.website_url,
         }
       })
-
-    console.log({ dataCruda, datos })
 
     let plantilla = $(refs.carrusel_plantilla)
     datos.forEach(dato => {
@@ -436,7 +445,7 @@ function inicializarSlide() {
         .removeAttr("id")
         .insertBefore(plantilla)
         .find("img")
-        .attr("src", dato.src[0])
+        .attr("src", dato.src.map(base64)[0])
     })
 
     plantilla.remove()
@@ -465,7 +474,6 @@ function inicializarSlide() {
 
       if (paquete) {
         cardHTML.find(".paquete_nombre").text(paquete.plan_id[1])
-        console.log(dato.website_url)
         cardHTML.find(".paquete_precio").text(paquete.price)
 
         $(".paquete_accion").click(
@@ -540,37 +548,16 @@ function inicializarSlide() {
           .reduce((acumulator, current) => [...acumulator, ...current], [])
 
         let paquetes = await SERVICE.getPlans({ id: ids })
+
         skus = skus.map(sku => ({
           ...sku,
           paquetes: paquetes.filter(plan =>
             sku?.booking_plan_ids?.includes(plan.id)
           ),
+          imagenes: sku?.product_template_image_ids,
         }))
 
         //product_template_image_ids []
-
-        let contenedorMedia = await SERVICE.getImages({
-          id: skus
-            .map(sku => sku.product_template_image_ids)
-            .reduce((previus, current) => {
-              if (current.length) previus.push(...current)
-              return previus
-            }, []),
-        })
-
-        const filtroMedia = sku => {
-          return media => sku?.product_template_image_ids.includes(media.id)
-        }
-
-        skus = skus.map(sku => ({
-          ...sku,
-          imagenes: contenedorMedia
-            .filter(filtroMedia(sku))
-            .map(media => media.image_1024),
-          videos: contenedorMedia
-            .filter(filtroMedia(sku))
-            .map(media => media.embed_code),
-        }))
 
         construirSlide(skus)
         ejecutarSlide()
