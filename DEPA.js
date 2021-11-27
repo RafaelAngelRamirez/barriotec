@@ -9,15 +9,15 @@
 /**
  * Para pruebas en dev
  */
-let debug =
-  location.hostname === "localhost" || location.hostname === "127.0.0.1"
+let debug = false
 
 // const categoriaIdDepartamento = 4
 // const categoriaIdEstudio = 5
 const categoriaIdDepartamento = 10
 const categoriaIdEstudio = 5
 
-const API = path => "http://localhost:8070/barriotec/" + path
+const BD = "test"
+const API = path => "http://localhost:8070/barriotec/" + path + `?db=${BD}`
 
 //Debe ser el nombre del paquete literal
 const paquetesCard = ["BASIC", "GOLD", "ALL IN"]
@@ -100,7 +100,7 @@ const SERVICE = {
         API("plans/" + opciones.id.join("-")),
         {},
         function (data, textStatus, jqXHR) {
-          resolve(data)
+          resolve(data.plans)
         },
         "json"
       )
@@ -109,10 +109,10 @@ const SERVICE = {
   getImages: opciones =>
     new Promise((resolve, reject) => {
       $.get(
-        API("plans/" + opciones.id.join("-")),
+        API("imagenes/" + opciones.id.join("-")),
         {},
         function (data, textStatus, jqXHR) {
-          resolve(data)
+          resolve(data.imagenes)
         },
         "json"
       )
@@ -133,7 +133,6 @@ const accessoADatos = [
     encabezado: "Categoría",
     campo: "categ_id",
     transformacion: arregloDato => {
-      console.log("categoria", arregloDato)
       return arregloDato[0]
     },
   },
@@ -230,10 +229,8 @@ function generarTabla() {
   let continuar = generarEncabezado(accessoADatos.map(x => x.encabezado))
   if (!continuar) return
 
-  console.log("antes de")
   SERVICE.getSkus()
     .then(products => {
-      console.log({ products })
       let datos = products.map(product => {
         return accessoADatos.map(accD => {
           if (product.hasOwnProperty(accD.campo)) {
@@ -251,7 +248,7 @@ function generarTabla() {
 
       generarDatos(datos)
     })
-    .catch(_ => console.log(_))
+    .catch(_ => console.error(_))
 }
 
 //------------------------------
@@ -273,7 +270,7 @@ function inicializarSlide() {
   async function mostrarDetalleDepa(datos) {
     $("#depa_detalle_nombre").text(datos.nombre)
     $("#depa_detalle_descripcion").text(datos.descripcion)
-    $("#depa_detalle_img").attr("src", datos.src.map(base64)[0])
+    $("#depa_detalle_img").attr("src", datos.src[0])
     $("#depa_detalle_precio").text(datos.precio)
     $("#depa_detalle_area_depa").text(datos.area_depa)
     $("#depa_detalle_area_balcon").text(datos.area_balcon)
@@ -294,12 +291,12 @@ function inicializarSlide() {
     let contenedorMedia = new Array(5).fill(null).map(x => ({
       image_1024: `http://lorempixel.com/${ran()}00/${ran()}00/people/` + ran(),
       embed_code: `<iframe
-              class="embed-responsive-item"
-              src="//www.youtube.com/embed/Mw-voVnKtcA?rel=0"
-              allowfullscreen="true"
-              frameborder="0"
-            ></iframe
-            >`,
+      class="embed-responsive-item"
+      src="//www.youtube.com/embed/Mw-voVnKtcA?rel=0"
+      allowfullscreen="true"
+      frameborder="0"
+      ></iframe
+      >`,
     }))
     if (!debug)
       contenedorMedia = await SERVICE.getImages({
@@ -310,10 +307,11 @@ function inicializarSlide() {
 
     datos = {
       ...datos,
-      src: [...datos.src, ...contenedorMedia.map(media => media.image_1024)]
-        .filter(x => x)
-        .map(base64),
-      videos: contenedorMedia.map(media => media.embed_code).filter(x => x),
+      src: [
+        ...datos.src,
+        ...contenedorMedia.map(media => media.image_1024),
+      ].filter(x => x),
+      videos: contenedorMedia.map(media => media.video).filter(x => x),
     }
 
     datos.src.forEach(src => {
@@ -365,7 +363,7 @@ function inicializarSlide() {
           imagenes: x.imagenes,
           descripcion: x.description ?? "",
           // Este es un array
-          precio: `${x.cost_currency_id.pop()} ${x.cost_currency_id.pop()}`,
+          precio: x.list_price,
           area_depa: x.booking_area,
           area_balcon: x.booking_lookout_area,
           cuartos: x.booking_rom_num,
@@ -390,7 +388,7 @@ function inicializarSlide() {
         .removeAttr("id")
         .insertBefore(plantilla)
         .find("img")
-        .attr("src", dato.src.map(base64)[0])
+        .attr("src", dato.src[0])
     })
 
     plantilla.remove()
@@ -414,11 +412,11 @@ function inicializarSlide() {
     // TRES PAQUETES  - SE RESPESTA EL ORDEN [0,1,2] SEGUN POSICION HTML
     let contador = 0
     paquetesCard.forEach(paq => {
-      paquete = dato.paquetes.find(p => p.plan_id[1] === paq)
+      paquete = dato.paquetes.find(p => p.name === paq)
       const cardHTML = $("#" + ids[contador])
 
       if (paquete) {
-        cardHTML.find(".paquete_nombre").text(paquete.plan_id[1])
+        cardHTML.find(".paquete_nombre").text(paquete.name)
         cardHTML.find(".paquete_precio").text(paquete.price)
 
         $(".paquete_accion").click(
@@ -493,7 +491,6 @@ function inicializarSlide() {
           .reduce((acumulator, current) => [...acumulator, ...current], [])
 
         let paquetes = await SERVICE.getPlans({ id: ids })
-
         skus = skus.map(sku => ({
           ...sku,
           paquetes: paquetes.filter(plan =>
