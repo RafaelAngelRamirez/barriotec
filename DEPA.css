@@ -2,6 +2,10 @@
  * version:  1.5.0 - Sat Nov 27 13:33:51 2021
 */
 
+* {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
 .pointer {
   cursor: pointer;
 }
