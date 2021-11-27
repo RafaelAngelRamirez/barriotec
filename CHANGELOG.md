@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.4.7...v1.5.0) (2021-11-27)
+
+
+### Features
+
+* Detalle de Planes - Closes [#2](https://github.com/RafaelAngelRamirez/barriotec/issues/2) ([fc9ceeb](https://github.com/RafaelAngelRamirez/barriotec/commit/fc9ceeb943d23c0402f234afa837c65846d8f6a7))
+
+
+### Bug Fixes
+
+* Acento balcón ([16df0bc](https://github.com/RafaelAngelRamirez/barriotec/commit/16df0bc276a92cdaf2c664ea1214c7c2c353482f))
+* Titulos en tabla depas Closes [#1](https://github.com/RafaelAngelRamirez/barriotec/issues/1) ([50693c9](https://github.com/RafaelAngelRamirez/barriotec/commit/50693c9a085d08328c90fdb6277a97826a7dfe87))
+
 ### [1.4.7](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.4.6...v1.4.7) (2021-11-27)
 
 
