@@ -17,7 +17,7 @@ const categoriaIdDepartamento = 10
 const categoriaIdEstudio = 5
 
 const BD = "test"
-const API = path => "http://localhost:8070/barriotec/" + path + `?db=${BD}`
+const API = path => "http://localhost:8070/barriotec/" + path + `?db=${ BD }`
 
 //Debe ser el nombre del paquete literal
 const paquetesCard = ["BASIC", "GOLD", "ALL IN"]
@@ -137,18 +137,18 @@ const accessoADatos = [
     },
   },
   {
-    encabezado: "Num de cuartos",
+    encabezado: "Cuartos",
     campo: "booking_rom_num",
     transformacion: null,
   },
   { encabezado: "Piso", campo: "booking_floor", transformacion: null },
   {
-    encabezado: "Área del departamento",
+    encabezado: "Área",
     campo: "booking_area",
     transformacion: null,
   },
   {
-    encabezado: "Área del balcon",
+    encabezado: "Balcon",
     campo: "booking_lookout_area",
     transformacion: numero => (numero ? numero : "N/A"),
   },
