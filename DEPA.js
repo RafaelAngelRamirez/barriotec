@@ -5,10 +5,6 @@
 //------------------------------
 // GLOBALES
 //------------------------------
-/**
- * En modo producción almacena el resutlado de require('web.rpc')
- */
-let rpc = null
 
 /**
  * Para pruebas en dev
@@ -16,8 +12,12 @@ let rpc = null
 let debug =
   location.hostname === "localhost" || location.hostname === "127.0.0.1"
 
-const categoriaIdDepartamento = 4
+// const categoriaIdDepartamento = 4
+// const categoriaIdEstudio = 5
+const categoriaIdDepartamento = 10
 const categoriaIdEstudio = 5
+
+const API = path => "http://localhost:8070/barriotec/" + path
 
 //Debe ser el nombre del paquete literal
 const paquetesCard = ["BASIC", "GOLD", "ALL IN"]
@@ -82,97 +82,41 @@ const CONFIGURACIONES = [
  *
  */
 const SERVICE = {
-  getSkus: opciones => {
-    opciones = {
-      ...{
-        domain: [
-          ["is_booking_type", "=", true],
-          //La categoria se toma dinamicamente del pathname
-          ["categ_id", "=", categoriaId],
-        ],
-      },
-      fields: new Set([
-        ...accessoADatos.map(x => x.campo),
-        "booking_plan_ids",
-        "product_template_image_ids",
-        "image_1024",
-        "description",
-        "cost_currency_id",
-        "cost_currency_id",
-        "booking_area",
-        "booking_lookout_area",
-        "booking_rom_num",
-        "extra_image_data_uri",
-        "website_url",
-      ]),
-      ...opciones,
-    }
-    const model = "product.template"
-    const method = "search_read"
-    const options = {
-      model,
-      method,
-      args: [opciones.domain, Array.from(opciones.fields)],
-    }
+  getSkus: () =>
+    new Promise((resolve, reject) => {
+      $.get(
+        API("skus/" + categoriaId),
+        {},
+        function (data, textStatus, jqXHR) {
+          resolve(data.skus)
+        },
+        "json"
+      )
+    }),
 
-    return rpc.query(options)
-  },
+  getPlans: opciones =>
+    new Promise((resolve, reject) => {
+      $.get(
+        API("plans/" + opciones.id.join("-")),
+        {},
+        function (data, textStatus, jqXHR) {
+          resolve(data)
+        },
+        "json"
+      )
+    }),
 
-  getPlans: opciones => {
-    opciones = {
-      ...{ domain: [["id", "=", opciones.id]] },
-      // fields: ["plan_id", "price"],
-      ...opciones,
-    }
-    const model = "pgmx.booking.product.plans"
-    const method = "search_read"
-    const options = {
-      model,
-      method,
-      args: [opciones.domain, opciones.fields],
-    }
-    return rpc.query(options)
-  },
-  getImages: opciones => {
-    opciones = {
-      ...{ domain: [["id", "=", opciones.id]] },
-      fields: ["image_1024", "embed_code"],
-      ...opciones,
-    }
-    const model = "product.image"
-    const method = "search_read"
-    const options = {
-      model,
-      method,
-      args: [opciones.domain, opciones.fields],
-    }
-    return rpc.query(options)
-  },
-
-  getBookingModal: opciones => {
-    // return new Promise((resolve, reject) => {
-    //   let data = {
-    //     jsonrpc: "2.0",
-    //     method: "call",
-    //     params: { product_id: 36 },
-    //     id: 956755385,
-    //   }
-    //   $.ajax({
-    //     type: "POST",
-    //     url: "booking/reservation/modal",
-    //     data: JSON.stringify(data),
-    //     contentType: "application/json",
-    //     success: function (response) {
-    //       resolve(response)
-    //       $("body").append(response.result)
-    //       $(".modal").modal("show")
-    //     },
-    //     xhrFields: {
-    //       withCredentials: true,
-    //     },
-    //   })
-    // })
-  },
+  getImages: opciones =>
+    new Promise((resolve, reject) => {
+      $.get(
+        API("plans/" + opciones.id.join("-")),
+        {},
+        function (data, textStatus, jqXHR) {
+          resolve(data)
+        },
+        "json"
+      )
+    }),
 }
 
 const base64 = i => (!debug ? `data:image/png;base64, ${i}` : i)
@@ -188,7 +132,10 @@ const accessoADatos = [
   {
     encabezado: "Categoría",
     campo: "categ_id",
-    transformacion: arregloDato => arregloDato[1],
+    transformacion: arregloDato => {
+      console.log("categoria", arregloDato)
+      return arregloDato[0]
+    },
   },
   {
     encabezado: "Num de cuartos",
@@ -283,62 +230,28 @@ function generarTabla() {
   let continuar = generarEncabezado(accessoADatos.map(x => x.encabezado))
   if (!continuar) return
 
-  if (debug) {
-    console.error("[ WARNING ] Estas en modo debug!")
-    const dummyData = [
-      [
-        "DEPA 301",
-        "Departamento",
-        "3",
-        "1",
-        "23",
-        "2",
-        "Disponible",
-        "/DEPA 301",
-      ],
-      [
-        "Depa 101",
-        "Departamento",
-        "2",
-        "1",
-        "80",
-        "N/A",
-        "Disponible",
-        "/Depa 101",
-      ],
-      [
-        "Depa 201",
-        "Departamento",
-        "2",
-        "2",
-        "100",
-        "6",
-        "Disponible",
-        "/Depa 201",
-      ],
-    ]
-    generarDatos(dummyData)
-  } else
-    SERVICE.getSkus()
-      .then(products => {
-        let datos = products.map(product => {
-          return accessoADatos.map(accD => {
-            if (product.hasOwnProperty(accD.campo)) {
-              if (accD.transformacion) {
-                //Los campos pupulados vienen en un arreglo de datos.
-                //Si necesitamos más información, lo extraemos con el dato
-                // que almacenamos en el arreglo de campos (TRANSFORMACION)
-                return accD.transformacion(product[accD.campo])
-              }
-              return product[accD.campo]
+  console.log("antes de")
+  SERVICE.getSkus()
+    .then(products => {
+      console.log({ products })
+      let datos = products.map(product => {
+        return accessoADatos.map(accD => {
+          if (product.hasOwnProperty(accD.campo)) {
+            if (accD.transformacion) {
+              //Los campos pupulados vienen en un arreglo de datos.
+              //Si necesitamos más información, lo extraemos con el dato
+              // que almacenamos en el arreglo de campos (TRANSFORMACION)
+              return accD.transformacion(product[accD.campo])
             }
-            return "CAMPO NO DISPONIBLE"
-          })
+            return product[accD.campo]
+          }
+          return "CAMPO NO DISPONIBLE"
         })
-
-        generarDatos(datos)
       })
-      .catch(_ => console.log(_))
+
+      generarDatos(datos)
+    })
+    .catch(_ => console.log(_))
 }
 
 //------------------------------
@@ -715,6 +628,5 @@ else
     ;("use strict")
 
     require("web.dom_ready")
-    rpc = require("web.rpc")
     document_ready()
   })
