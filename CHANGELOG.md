@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.7](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.4.6...v1.4.7) (2021-11-27)
+
+
+### Bug Fixes
+
+* Estructura nueva de backend actualizada ([2d4fde4](https://github.com/RafaelAngelRamirez/barriotec/commit/2d4fde48c63bdab91ff7b3f7fb6a037a997904ac))
+* Tabla funcionando ([12a8709](https://github.com/RafaelAngelRamirez/barriotec/commit/12a87096a599e171975a3fda2fa207a440a956d2))
+* Tamaño de plano excedia limites de card ([b4f37f5](https://github.com/RafaelAngelRamirez/barriotec/commit/b4f37f51932307a9ff1662d34fb81dd237c6ab68))
+
 ### [1.4.6](///compare/v1.4.5...v1.4.6) (2021-11-23)
 
 
