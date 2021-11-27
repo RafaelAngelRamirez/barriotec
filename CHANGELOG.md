@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.5.0...v1.5.1) (2021-11-27)
+
+
+### Bug Fixes
+
+* Tipo de letra Closes [#3](https://github.com/RafaelAngelRamirez/barriotec/issues/3) ([c0bff5d](https://github.com/RafaelAngelRamirez/barriotec/commit/c0bff5d52c6aae9fd82ea192e32d6592e499ea77))
+
 ## [1.5.0](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.4.7...v1.5.0) (2021-11-27)
 
 
