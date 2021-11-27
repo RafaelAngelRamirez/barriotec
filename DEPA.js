@@ -17,7 +17,7 @@ const categoriaIdDepartamento = 10
 const categoriaIdEstudio = 5
 
 const BD = "test"
-const API = path => "http://localhost:8070/barriotec/" + path + `?db=${ BD }`
+const API = path => "http://localhost:8070/barriotec/" + path + `?db=${BD}`
 
 //Debe ser el nombre del paquete literal
 const paquetesCard = ["BASIC", "GOLD", "ALL IN"]
@@ -418,6 +418,21 @@ function inicializarSlide() {
       if (paquete) {
         cardHTML.find(".paquete_nombre").text(paquete.name)
         cardHTML.find(".paquete_precio").text(paquete.price)
+
+        //DESCRIPTION ===
+
+        $descripcion = cardHTML.find(".card-text.description")
+        $descripcion.empty()
+
+        paquete.description
+          .replace("<p>", "")
+          .replace("</p>", "")
+          .split(",")
+          .map(x => x.trim())
+          .forEach(texto => {
+            let t = `<p>${texto}</p>`
+            $descripcion.append(t, document.createElement("hr"))
+          })
 
         $(".paquete_accion").click(
           () => (window.location.href = dato.website_url)
