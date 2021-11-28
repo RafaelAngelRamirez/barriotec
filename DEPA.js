@@ -13,11 +13,12 @@ let debug = false
 
 // const categoriaIdDepartamento = 4
 // const categoriaIdEstudio = 5
-const categoriaIdDepartamento = 10
+const categoriaIdDepartamento = 4
 const categoriaIdEstudio = 5
 
-const BD = "test"
-const API = path => "http://localhost:8070/barriotec/" + path + `?db=${BD}`
+const BD = "barriotec-testweb-3531788"
+const DOMINIO = "https://barriotec-testweb-3531788.dev.odoo.com/"
+const API = path => `${DOMINIO}barriotec/${path}?db=${BD}`
 
 //Debe ser el nombre del paquete literal
 const paquetesCard = ["BASIC", "GOLD", "ALL IN"]
