@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.5.2...v1.6.0) (2021-11-30)
+
+
+### Features
+
+* Añadir columna con precio en tabla de depas y estudios - Closes https://github.com/MerxBusinessPerformance/barriotec1/issues/15 ([34b95bd](https://github.com/RafaelAngelRamirez/barriotec/commit/34b95bd8bb4c00e4a5805b15bd333c746995f3b7))
+
+
+### Bug Fixes
+
+* Configuraciones generales separadas de fuente ([69786c0](https://github.com/RafaelAngelRamirez/barriotec/commit/69786c04ae20858b4c3d1c3aae8ee6629e270be6))
+* Si no hay ids de imagenes, no se continua la carga de elementos ([5bfaa19](https://github.com/RafaelAngelRamirez/barriotec/commit/5bfaa19c74020b0f7c03c416923621e85e1ec62b))
+* Si no hay planes no se permitia cargar el slide ([ef8f221](https://github.com/RafaelAngelRamirez/barriotec/commit/ef8f221f1aea30aa8e389d28714f03acca5f6743))
+
 ### [1.5.2](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.5.1...v1.5.2) (2021-11-28)
 
 
