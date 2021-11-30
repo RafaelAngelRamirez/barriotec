@@ -86,8 +86,10 @@ const SERVICE = {
       )
     }),
 
-  getPlans: opciones =>
-    new Promise((resolve, reject) => {
+  getPlans: opciones => {
+    if (!opciones.id.length) return new Promise((r, x) => r([]))
+
+    return new Promise((resolve, reject) => {
       $.get(
         API("plans/" + opciones.id.join("-")),
         {},
@@ -96,7 +98,8 @@ const SERVICE = {
         },
         "json"
       )
-    }),
+    })
+  },
 
   getImages: opciones =>
     new Promise((resolve, reject) => {
