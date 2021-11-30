@@ -150,6 +150,12 @@ const accessoADatos = [
     transformacion: numero => (numero ? numero : "N/A"),
   },
   {
+    encabezado: "Precio",
+    campo: "list_price",
+    transformacion: numero =>
+      numero ? "$ " + parseFloat(numero).toLocaleString("en") : "N/A",
+  },
+  {
     encabezado: "Estado",
     campo: "is_booking_type",
     transformacion: booleano => (booleano ? "Disponible" : "No disponible"),
@@ -268,7 +274,9 @@ function inicializarSlide() {
     $("#depa_detalle_nombre").text(datos.nombre)
     $("#depa_detalle_descripcion").text(datos.descripcion)
     $("#depa_detalle_img").attr("src", datos.src[0])
-    $("#depa_detalle_precio").text(datos.precio)
+    $("#depa_detalle_precio").text(
+      parseFloat(datos.precio).toLocaleString("en")
+    )
     $("#depa_detalle_area_depa").text(datos.area_depa)
     $("#depa_detalle_area_balcon").text(datos.area_balcon)
     $("#depa_detalle_cuartos").text(datos.cuartos)
@@ -414,7 +422,9 @@ function inicializarSlide() {
 
       if (paquete) {
         cardHTML.find(".paquete_nombre").text(paquete.name)
-        cardHTML.find(".paquete_precio").text(paquete.price)
+        cardHTML
+          .find(".paquete_precio")
+          .text(parseFloat(paquete.price).toLocaleString("en"))
 
         //DESCRIPTION ===
 
