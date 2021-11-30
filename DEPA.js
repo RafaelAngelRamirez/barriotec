@@ -101,8 +101,9 @@ const SERVICE = {
     })
   },
 
-  getImages: opciones =>
-    new Promise((resolve, reject) => {
+  getImages: opciones => {
+    if (!opciones.id.length) return new Promise((r, x) => r([]))
+    return new Promise((resolve, reject) => {
       $.get(
         API("imagenes/" + opciones.id.join("-")),
         {},
@@ -111,7 +112,8 @@ const SERVICE = {
         },
         "json"
       )
-    }),
+    })
+  },
 }
 
 const base64 = i => (!debug ? `data:image/png;base64, ${i}` : i)
