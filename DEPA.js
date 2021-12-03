@@ -634,13 +634,19 @@ function scriptsEInicializacion() {
 
 function document_ready() {
   $(document).ready(() => {
-    generarTabla()
-    scriptsEInicializacion()
+    let esDepaOEstudio =
+      window.location.pathname.includes("/depa") ||
+      window.location.pathname.includes("/estudios")
 
-    //Textos generales
-    CONFIGURACIONES.filter(x => (x.tipo = "string")).forEach(x => {
-      $(x.match).text(x.texto)
-    })
+    if (esDepaOEstudio) {
+      generarTabla()
+      scriptsEInicializacion()
+
+      //Textos generales
+      CONFIGURACIONES.filter(x => (x.tipo = "string")).forEach(x => {
+        $(x.match).text(x.texto)
+      })
+    }
   })
 }
 
