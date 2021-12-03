@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.6.0...v1.6.1) (2021-12-03)
+
+
+### Bug Fixes
+
+* Css que afecta a otras tablas ([a0af381](https://github.com/RafaelAngelRamirez/barriotec/commit/a0af381e0cf02dc6a22f57bbfc8b922b3cd30d1c))
+* Formato ([e8a265f](https://github.com/RafaelAngelRamirez/barriotec/commit/e8a265f70c3f487b3723037185c2184ff2858640))
+
 ## [1.6.0](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.5.2...v1.6.0) (2021-11-30)
 
 
