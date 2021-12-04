@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.2](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.6.1...v1.6.2) (2021-12-04)
+
+
+### Bug Fixes
+
+* Cambio de balcón por vista - Closes https://github.com/MerxBusinessPerformance/barriotec1/issues/27 ([c13ed13](https://github.com/RafaelAngelRamirez/barriotec/commit/c13ed13a790d9ab5b2f9fe16a168d91cf5a0f99c))
+* Eliminar columna Closes  https://github.com/MerxBusinessPerformance/barriotec1/issues/28, Espacio entre columnas closes Espacio entre columnas de paquetes (separar) [#29](https://github.com/RafaelAngelRamirez/barriotec/issues/29) ([32d20f8](https://github.com/RafaelAngelRamirez/barriotec/commit/32d20f81e559c249893295f881951793e8db09f6))
+* Script de carga se ejecuta fuera de /depas y /estudios Closes [#6](https://github.com/RafaelAngelRamirez/barriotec/issues/6) ([77733a8](https://github.com/RafaelAngelRamirez/barriotec/commit/77733a8649d93d98bdbf2c2f53b4ca39065c2654))
+
 ### [1.6.1](https://github.com/RafaelAngelRamirez/barriotec/compare/v1.6.0...v1.6.1) (2021-12-03)
 
 
