@@ -145,7 +145,7 @@ const accessoADatos = [
     transformacion: null,
   },
   {
-    encabezado: "Balcón",
+    encabezado: "Vista",
     campo: "booking_lookout_area",
     transformacion: numero => (numero ? numero : "N/A"),
   },
